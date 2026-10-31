@@ -2,32 +2,46 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b2124">
+<meta name="description" content="sen – a game of changing dimensions">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="sen">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>sen – a game of changing dimensions</title>
 <style>
 :root{--teal:#44a9ae;--orange:#f37e5e;--hi:#f0b85f;--mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 :root,:root[data-theme=dark]{color-scheme:dark;--bg:#1b2124;--panel:#28383b;--pill:#5e6b6c;--pilltx:#f2f6ef;--card:#1b2124;--ink:#e4eded;--icon:#e4eded;--dot:rgba(255,255,255,.55);--note:#d2ef6a;--turn:#5e6b6c;--board:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMjY2LjUyIDI2Ni41MiA0NzQuOTYgNDc0Ljk2Ij48ZGVmcz48c3R5bGU+CiAgICAgIC5zdDAsIC5zdDEsIC5zdDIgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5zdDEgewogICAgICAgIHN0cm9rZTogIzVlNmI2YzsKICAgICAgfQoKICAgICAgLnN0MSwgLnN0MiB7CiAgICAgICAgc3Ryb2tlLW1pdGVybGltaXQ6IDEwOwogICAgICB9CgogICAgICAuc3QzIHsKICAgICAgICBmaWxsOiAjNWU2YjZjOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBzdHJva2U6ICMzYTQ1NDc7CiAgICAgIH0KCiAgICAgIC5zdDQgewogICAgICAgIGZpbGw6ICMzYTQ1NDc7CiAgICAgIH0KICAgIDwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjMyNS44OSIgeT0iMjY2LjUyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI0NDQuNjMiIHk9IjI2Ni41MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTYzLjM3IiB5PSIyNjYuNTIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxwYXRoIGNsYXNzPSJzdDQiIGQ9Ik02ODIuMTEsMjY2LjUyaDQ3LjM3YzYuNjIsMCwxMiw1LjM4LDEyLDEydjQ3LjM3aC01OS4zN3YtNTkuMzdoMFoiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI2MjIuNzQiIHk9IjMyNS44OSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzA0Ljg0NTMgNzExLjE1NDcpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjUwNCIgeT0iMzI1Ljg5IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwNjcuMzY5MSA3MTEuMTU0Nykgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzg1LjI2IiB5PSIzMjUuODkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODI5Ljg5IDcxMS4xNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMjY2LjUyIiB5PSIzMjUuODkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTkyLjQyIDcxMS4xNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzI1Ljg5IiB5PSIzODUuMjYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjQ0NC42MyIgeT0iMzg1LjI2IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI1NjMuMzciIHk9IjM4NS4yNiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNjgyLjExIiB5PSIzODUuMjYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjYyMi43NCIgeT0iNDQ0LjYzIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMDQuODQ1MyA5NDguNjMwOSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTA0IiB5PSI0NDQuNjMiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2Ny4zNjkxIDk0OC42MzA5KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzODUuMjYiIHk9IjQ0NC42MyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MjkuODkgOTQ4LjYzKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIyNjYuNTIiIHk9IjQ0NC42MyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTIuNDIgOTQ4LjYzKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzMjUuODkiIHk9IjUwNCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNDQ0LjYzIiB5PSI1MDQiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjU2My4zNyIgeT0iNTA0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI2ODIuMTEiIHk9IjUwNCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNjIyLjc0IiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMwNC44NDUzIDExODYuMTA3Mikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTA0IiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2Ny4zNjkxIDExODYuMTA3Mikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzg1LjI2IiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODI5Ljg5MjggMTE4Ni4xMDcyKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIyNjYuNTIiIHk9IjU2My4zNyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTIuNDE2NSAxMTg2LjEwNzIpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjMyNS44OSIgeT0iNjIyLjc0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI0NDQuNjMiIHk9IjYyMi43NCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTYzLjM3IiB5PSI2MjIuNzQiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjY4Mi4xMSIgeT0iNjIyLjc0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI2MjIuNzQiIHk9IjY4Mi4xMSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzA0Ljg0NTMgMTQyMy41ODM1KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI1MDQiIHk9IjY4Mi4xMSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDY3LjM2OTEgMTQyMy41ODM1KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzODUuMjYiIHk9IjY4Mi4xMSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MjkuODkyOCAxNDIzLjU4MzUpIHJvdGF0ZSgtMTgwKSIvPjxwYXRoIGNsYXNzPSJzdDQiIGQ9Ik0yNjYuNTIsNjgyLjExaDQ3LjM3YzYuNjIsMCwxMiw1LjM4LDEyLDEydjQ3LjM3aC01OS4zN3YtNTkuMzdoMFoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU5Mi40MTY1IDE0MjMuNTgzNSkgcm90YXRlKC0xODApIi8+PHBhdGggY2xhc3M9InN0MyIgZD0iTTI3OC41MiwyNjYuNTJoNDcuMzd2NTkuMzdoLTU5LjM3di00Ny4zN2MwLTYuNjIsNS4zOC0xMiwxMi0xMloiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzODUuMjYiIHk9IjI2Ni41MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTA0IiB5PSIyNjYuNTIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjYyMi43NCIgeT0iMjY2LjUyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI2ODIuMTEiIHk9IjMyNS44OSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDIzLjU4MzUgNzExLjE1NDcpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjU2My4zNyIgeT0iMzI1Ljg5IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExODYuMTA3MiA3MTEuMTU0Nykgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNDQ0LjYzIiB5PSIzMjUuODkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTQ4LjYzIDcxMS4xNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzI1Ljg5IiB5PSIzMjUuODkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzExLjE1IDcxMS4xNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMjY2LjUyIiB5PSIzODUuMjYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjM4NS4yNiIgeT0iMzg1LjI2IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI1MDQiIHk9IjM4NS4yNiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNjIyLjc0IiB5PSIzODUuMjYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjY4Mi4xMSIgeT0iNDQ0LjYzIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0MjMuNTgzNSA5NDguNjMwOSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTYzLjM3IiB5PSI0NDQuNjMiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4Ni4xMDcyIDk0OC42MzA5KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI0NDQuNjMiIHk9IjQ0NC42MyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NDguNjMgOTQ4LjYzKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzMjUuODkiIHk9IjQ0NC42MyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MTEuMTUgOTQ4LjYzKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIyNjYuNTIiIHk9IjUwNCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzg1LjI2IiB5PSI1MDQiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjUwNCIgeT0iNTA0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI2MjIuNzQiIHk9IjUwNCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNjgyLjExIiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQyMy41ODM1IDExODYuMTA3Mikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTYzLjM3IiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4Ni4xMDcyIDExODYuMTA3Mikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNDQ0LjYzIiB5PSI1NjMuMzciIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTQ4LjYzMDkgMTE4Ni4xMDcyKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzMjUuODkiIHk9IjU2My4zNyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MTEuMTU0NyAxMTg2LjEwNzIpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjI2Ni41MiIgeT0iNjIyLjc0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzODUuMjYiIHk9IjYyMi43NCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTA0IiB5PSI2MjIuNzQiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjYyMi43NCIgeT0iNjIyLjc0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cGF0aCBjbGFzcz0ic3QzIiBkPSJNNjk0LjExLDY4Mi4xMWg0Ny4zN3Y1OS4zN2gtNTkuMzd2LTQ3LjM3YzAtNi42Miw1LjM4LTEyLDEyLTEyWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQyMy41ODM1IDE0MjMuNTgzNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTYzLjM3IiB5PSI2ODIuMTEiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4Ni4xMDcyIDE0MjMuNTgzNSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNDQ0LjYzIiB5PSI2ODIuMTEiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTQ4LjYzMDkgMTQyMy41ODM1KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzMjUuODkiIHk9IjY4Mi4xMSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MTEuMTU0NyAxNDIzLjU4MzUpIHJvdGF0ZSgtMTgwKSIvPjxnPjxyZWN0IGNsYXNzPSJzdDAiIHg9IjQ0NC42MyIgeT0iNDQ0LjYzIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk0OC42MyA5NDguNjMpIHJvdGF0ZSgtMTgwKSIvPjxwb2x5bGluZSBjbGFzcz0ic3QyIiBwb2ludHM9IjQ1My4yOSA0NDcuMTcgNDQ3LjE3IDQ0Ny4xNyA0NDcuMTcgNDUzLjI5Ii8+PC9nPjxnPjxyZWN0IGNsYXNzPSJzdDAiIHg9IjUwNCIgeT0iNTA0IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cG9seWxpbmUgY2xhc3M9InN0MiIgcG9pbnRzPSI1NTQuNzEgNTYwLjgzIDU2MC44MyA1NjAuODMgNTYwLjgzIDU1NC43MSIvPjwvZz48Zz48cmVjdCBjbGFzcz0ic3QwIiB4PSI1MDQiIHk9IjQ0NC42MyIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OS4zNjkxIDEwMDgpIHJvdGF0ZSgtOTApIi8+PHBvbHlsaW5lIGNsYXNzPSJzdDEiIHBvaW50cz0iNTYwLjgzIDQ1My4yOSA1NjAuODMgNDQ3LjE3IDU1NC43MSA0NDcuMTciLz48L2c+PGc+PHJlY3QgY2xhc3M9InN0MCIgeD0iNDQ0LjYzIiB5PSI1MDQiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwOCA1OS4zNjkxKSByb3RhdGUoOTApIi8+PHBvbHlsaW5lIGNsYXNzPSJzdDEiIHBvaW50cz0iNDQ3LjE3IDU1NC43MSA0NDcuMTcgNTYwLjgzIDQ1My4yOSA1NjAuODMiLz48L2c+PC9zdmc+")}
 :root[data-theme=light]{color-scheme:light;--bg:#b3cbcb;--panel:#a3c1bf;--pill:#efefef;--pilltx:#1f2a2d;--card:#efefef;--ink:#1f2a2d;--icon:#202a2d;--dot:rgba(0,0,0,.3);--note:#3f4d0c;--turn:#efefef;--board:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMjY2LjgxIDI2Ni45OCA0NzQuOTYgNDc0Ljk1Ij48ZGVmcz48c3R5bGU+CiAgICAgIC5zdDAsIC5zdDEsIC5zdDIgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5zdDEgewogICAgICAgIHN0cm9rZTogI2NlYzdjMjsKICAgICAgfQoKICAgICAgLnN0MSwgLnN0MiB7CiAgICAgICAgc3Ryb2tlLW1pdGVybGltaXQ6IDEwOwogICAgICB9CgogICAgICAuc3QzIHsKICAgICAgICBmaWxsOiAjZWZlZmVmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBzdHJva2U6ICNlZmVmZWY7CiAgICAgIH0KCiAgICAgIC5zdDQgewogICAgICAgIGZpbGw6ICNjZWM3YzI7CiAgICAgIH0KICAgIDwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjMyNi4xOCIgeT0iMjY2Ljk4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI0NDQuOTIiIHk9IjI2Ni45OCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTYzLjY1IiB5PSIyNjYuOTgiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxwYXRoIGNsYXNzPSJzdDQiIGQ9Ik02ODIuMzksMjY2Ljk4aDQ3LjM3YzYuNjIsMCwxMiw1LjM4LDEyLDEydjQ3LjM3aC01OS4zN3YtNTkuMzdoMFoiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI2MjMuMDIiIHk9IjMyNi4zNSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzA1LjQxNjggNzEyLjA2MjIpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjUwNC4yOSIgeT0iMzI2LjM1IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwNjcuOTQwNSA3MTIuMDYyMikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzg1LjU1IiB5PSIzMjYuMzUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODMwLjQ2IDcxMi4wNikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMjY2LjgxIiB5PSIzMjYuMzUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTkyLjk5IDcxMi4wNikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzI2LjE4IiB5PSIzODUuNzIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjQ0NC45MiIgeT0iMzg1LjcyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI1NjMuNjUiIHk9IjM4NS43MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNjgyLjM5IiB5PSIzODUuNzIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjYyMy4wMiIgeT0iNDQ1LjA4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMDUuNDE2OCA5NDkuNTM4NSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTA0LjI5IiB5PSI0NDUuMDgiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2Ny45NDA1IDk0OS41Mzg1KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzODUuNTUiIHk9IjQ0NS4wOCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MzAuNDYgOTQ5LjU0KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIyNjYuODEiIHk9IjQ0NS4wOCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTIuOTkgOTQ5LjU0KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzMjYuMTgiIHk9IjUwNC40NSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNDQ0LjkyIiB5PSI1MDQuNDUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjU2My42NSIgeT0iNTA0LjQ1IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI2ODIuMzkiIHk9IjUwNC40NSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNjIzLjAyIiB5PSI1NjMuODIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMwNS40MTY4IDExODcuMDE0OCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTA0LjI5IiB5PSI1NjMuODIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2Ny45NDA1IDExODcuMDE0OCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzg1LjU1IiB5PSI1NjMuODIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODMwLjQ2NDIgMTE4Ny4wMTQ4KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIyNjYuODEiIHk9IjU2My44MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTIuOTg4IDExODcuMDE0OCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iMzI2LjE4IiB5PSI2MjMuMTkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjQ0NC45MiIgeT0iNjIzLjE5IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSI1NjMuNjUiIHk9IjYyMy4xOSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNjgyLjM5IiB5PSI2MjMuMTkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDQiIHg9IjYyMy4wMiIgeT0iNjgyLjU2IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMDUuNDE2OCAxNDI0LjQ5MSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0NCIgeD0iNTA0LjI5IiB5PSI2ODIuNTYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2Ny45NDA1IDE0MjQuNDkxKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3Q0IiB4PSIzODUuNTUiIHk9IjY4Mi41NiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MzAuNDY0MiAxNDI0LjQ5MSkgcm90YXRlKC0xODApIi8+PHBhdGggY2xhc3M9InN0NCIgZD0iTTI2Ni44MSw2ODIuNTZoNDcuMzdjNi42MiwwLDEyLDUuMzgsMTIsMTJ2NDcuMzdoLTU5LjM3di01OS4zN2gwWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTkyLjk4OCAxNDI0LjQ5MSkgcm90YXRlKC0xODApIi8+PHBhdGggY2xhc3M9InN0MyIgZD0iTTI3OC44MSwyNjYuOThoNDcuMzd2NTkuMzdoLTU5LjM3di00Ny4zN2MwLTYuNjIsNS4zOC0xMiwxMi0xMloiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzODUuNTUiIHk9IjI2Ni45OCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTA0LjI5IiB5PSIyNjYuOTgiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjYyMy4wMiIgeT0iMjY2Ljk4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI2ODIuMzkiIHk9IjMyNi4zNSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDI0LjE1NDkgNzEyLjA2MjIpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjU2My42NSIgeT0iMzI2LjM1IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExODYuNjc4NiA3MTIuMDYyMikgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNDQ0LjkyIiB5PSIzMjYuMzUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTQ5LjIgNzEyLjA2KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIzMjYuMTgiIHk9IjMyNi4zNSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MTEuNzMgNzEyLjA2KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIyNjYuODEiIHk9IjM4NS43MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzg1LjU1IiB5PSIzODUuNzIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjUwNC4yOSIgeT0iMzg1LjcyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI2MjMuMDIiIHk9IjM4NS43MiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNjgyLjM5IiB5PSI0NDUuMDgiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQyNC4xNTQ5IDk0OS41Mzg1KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI1NjMuNjUiIHk9IjQ0NS4wOCIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTg2LjY3ODYgOTQ5LjUzODUpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjQ0NC45MiIgeT0iNDQ1LjA4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk0OS4yIDk0OS41NCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzI2LjE4IiB5PSI0NDUuMDgiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzExLjczIDk0OS41NCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMjY2LjgxIiB5PSI1MDQuNDUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjM4NS41NSIgeT0iNTA0LjQ1IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI1MDQuMjkiIHk9IjUwNC40NSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNjIzLjAyIiB5PSI1MDQuNDUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjY4Mi4zOSIgeT0iNTYzLjgyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0MjQuMTU0OSAxMTg3LjAxNDgpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjU2My42NSIgeT0iNTYzLjgyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExODYuNjc4NiAxMTg3LjAxNDgpIHJvdGF0ZSgtMTgwKSIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjQ0NC45MiIgeT0iNTYzLjgyIiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk0OS4yMDI0IDExODcuMDE0OCkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzI2LjE4IiB5PSI1NjMuODIiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzExLjcyNjEgMTE4Ny4wMTQ4KSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSIyNjYuODEiIHk9IjYyMy4xOSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzg1LjU1IiB5PSI2MjMuMTkiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxyZWN0IGNsYXNzPSJzdDMiIHg9IjUwNC4yOSIgeT0iNjIzLjE5IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI2MjMuMDIiIHk9IjYyMy4xOSIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3Ii8+PHBhdGggY2xhc3M9InN0MyIgZD0iTTY5NC4zOSw2ODIuNTZoNDcuMzd2NTkuMzdoLTU5LjM3di00Ny4zN2MwLTYuNjIsNS4zOC0xMiwxMi0xMloiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0MjQuMTU0OSAxNDI0LjQ5MSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iNTYzLjY1IiB5PSI2ODIuNTYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4Ni42Nzg2IDE0MjQuNDkxKSByb3RhdGUoLTE4MCkiLz48cmVjdCBjbGFzcz0ic3QzIiB4PSI0NDQuOTIiIHk9IjY4Mi41NiIgd2lkdGg9IjU5LjM3IiBoZWlnaHQ9IjU5LjM3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NDkuMjAyNCAxNDI0LjQ5MSkgcm90YXRlKC0xODApIi8+PHJlY3QgY2xhc3M9InN0MyIgeD0iMzI2LjE4IiB5PSI2ODIuNTYiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzExLjcyNjEgMTQyNC40OTEpIHJvdGF0ZSgtMTgwKSIvPjxnPjxyZWN0IGNsYXNzPSJzdDAiIHg9IjQ0NC45MiIgeT0iNDQ1LjA4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk0OS4yIDk0OS41NCkgcm90YXRlKC0xODApIi8+PHBvbHlsaW5lIGNsYXNzPSJzdDEiIHBvaW50cz0iNDUzLjU4IDQ0Ny42MiA0NDcuNDYgNDQ3LjYyIDQ0Ny40NiA0NTMuNzQiLz48L2c+PGc+PHJlY3QgY2xhc3M9InN0MCIgeD0iNTA0LjI5IiB5PSI1MDQuNDUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIvPjxwb2x5bGluZSBjbGFzcz0ic3QxIiBwb2ludHM9IjU1NC45OSA1NjEuMjggNTYxLjExIDU2MS4yOCA1NjEuMTEgNTU1LjE2Ii8+PC9nPjxnPjxyZWN0IGNsYXNzPSJzdDAiIHg9IjUwNC4yOSIgeT0iNDQ1LjA4IiB3aWR0aD0iNTkuMzciIGhlaWdodD0iNTkuMzciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU5LjIwMSAxMDA4LjczOTUpIHJvdGF0ZSgtOTApIi8+PHBvbHlsaW5lIGNsYXNzPSJzdDIiIHBvaW50cz0iNTYxLjExIDQ1My43NCA1NjEuMTEgNDQ3LjYyIDU1NC45OSA0NDcuNjIiLz48L2c+PGc+PHJlY3QgY2xhc3M9InN0MCIgeD0iNDQ0LjkyIiB5PSI1MDQuNDUiIHdpZHRoPSI1OS4zNyIgaGVpZ2h0PSI1OS4zNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwOC43Mzk1IDU5LjUzNzEpIHJvdGF0ZSg5MCkiLz48cG9seWxpbmUgY2xhc3M9InN0MiIgcG9pbnRzPSI0NDcuNDYgNTU1LjE2IDQ0Ny40NiA1NjEuMjggNDUzLjU4IDU2MS4yOCIvPjwvZz48L3N2Zz4=")}
+@font-face{font-family:"Space Mono";src:url("fonts/SpaceMono-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Space Mono";src:url("fonts/SpaceMono-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"League Spartan";src:url("fonts/LeagueSpartan-SemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
 *{box-sizing:border-box}
-html{scrollbar-gutter:stable both-edges}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 12px}
+html{scrollbar-gutter:stable both-edges;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.guide,.gin,.gend,footer{-webkit-user-select:text;user-select:text}
+#board{-webkit-touch-callout:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))}
 main{width:min(100%,600px);margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:max(28px,env(safe-area-inset-top)) 0 max(28px,env(safe-area-inset-bottom))}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 0}
-h1{font:700 2rem/1 "Trebuchet MS",Verdana,sans-serif;margin:0;letter-spacing:-.02em}
+h1{font:600 2.2rem/1 "League Spartan",Verdana,sans-serif;margin:0 0 0 12px;letter-spacing:-.02em}
 .hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:12px;font:13px/1.5 var(--mono)}
 .ht{text-align:left}
 .hb{display:flex;align-items:center;gap:8px;margin-left:auto}
 .ctl svg{display:block;width:18px;height:18px}
 button.ctl{min-height:36px}
-#new,#resign{font:700 13px/1.5 "Trebuchet MS",Verdana,sans-serif}
+#new,#resign{font:600 14px/1.5 "League Spartan",Verdana,sans-serif;padding:9px 12px 5px}
 button.ctl:disabled{opacity:.45;cursor:default}
 select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;background:var(--panel);color:var(--ink);cursor:pointer}
 .players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;font:13px/1.5 var(--mono)}
 .pl{background:var(--panel);border-radius:10px;padding:8px 12px 4px;border-bottom:4px solid transparent}
 .pl.on{border-bottom-color:var(--turn)}
 .pl b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px}
-.nm{font:700 13px/1.5 "Trebuchet MS",Verdana,sans-serif}
+.nm{font:600 18px/1.4 "League Spartan",Verdana,sans-serif}
 .die.mv{z-index:5;transition:transform .2s ease-in-out,box-shadow .18s ease-out}
 .die.pop i.p{animation:pop .48s ease-out .2s both}
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.2)}70%{transform:scale(.85)}100%{transform:scale(1)}}
@@ -44,18 +58,18 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 @keyframes ovin{from{opacity:0}}
 .ov{background:var(--panel);color:var(--ink);border-radius:16px;padding:22px;width:min(78%,340px);box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:center}
 .ovn{margin:0 0 10px;font:13px/1.5 var(--mono);opacity:.85}.ovn[hidden]{display:none}
-.ov h2{margin:0 0 16px;font:700 17px/1.35 "Trebuchet MS",Verdana,sans-serif}
+.ov h2{margin:0 0 16px;font:600 18px/1.35 "League Spartan",Verdana,sans-serif}
 .prow{display:flex;align-items:center;background:var(--card);border-radius:999px;padding:6px 6px 6px 0;margin:0 0 10px}
 .pico{width:51px;flex:none;display:flex;justify-content:center;padding-left:4px}
 .pic{fill:var(--icon);display:block}
 .plb{flex:1;color:var(--ink)}
-.start{flex:none;font:700 16px/1 "Trebuchet MS",Verdana,sans-serif;padding:12px 20px;border:0;border-radius:999px;background:var(--ink);color:var(--card);cursor:pointer}
+.start{flex:none;font:600 17px/1 "League Spartan",Verdana,sans-serif;padding:13px 20px 11px;border:0;border-radius:999px;background:var(--ink);color:var(--card);cursor:pointer}
 .start:hover{filter:brightness(1.08)}
 .start:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .ov .opt{text-align:center}#rs .opt{border-radius:999px;text-align:center}.ov .opt:last-child{margin-bottom:0}
 .pd{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px}
-.pl small{display:block;opacity:.85}
-.wrap{position:relative;padding:3%;background:var(--panel);border-radius:28px}
+.pl small{display:block;opacity:.85;font-size:clamp(9px,calc((50vw - 50px) / 11.8),14px);white-space:nowrap}
+.wrap{position:relative}
 .board{display:grid;grid-template:repeat(8,minmax(0,1fr))/repeat(8,minmax(0,1fr));aspect-ratio:1;background:var(--board) center/100% 100% no-repeat}
 .cell{position:relative;min-width:0;min-height:0;border:0;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent}
 .cell.last{background:rgba(204,239,77,.82)}
@@ -79,7 +93,7 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .msg:empty{display:none}
 .msg strong{display:block}
 details{background:var(--panel);border-radius:10px;padding:10px 14px;font-size:13px}
-summary{cursor:pointer;font:700 13px/1.5 "Trebuchet MS",Verdana,sans-serif;list-style:none;display:flex;align-items:center}
+summary{cursor:pointer;font:600 14px/1.5 "League Spartan",Verdana,sans-serif;list-style:none;display:flex;align-items:center}
 summary::-webkit-details-marker{display:none}
 summary::before{content:"";width:5px;height:5px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);margin:0 10px 0 1px;transition:transform .2s ease-out;flex:none}
 details[open]>summary::before{transform:translateY(-2px) rotate(45deg)}
@@ -92,7 +106,7 @@ footer a{color:inherit}
 dialog{border:0;border-radius:16px;padding:0;background:var(--panel);color:var(--ink);font:14px/1.5 var(--mono);width:min(92vw,360px)}
 dialog::backdrop{background:rgba(20,30,32,.55)}
 .mb{padding:22px;position:relative}
-dialog h2{margin:0 0 16px;font:700 17px/1.3 "Trebuchet MS",Verdana,sans-serif}
+dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .x{position:absolute;top:12px;right:14px;border:0;background:none;color:inherit;font:inherit;font-size:22px;line-height:1;cursor:pointer}
 .opt{display:block;width:100%;font:inherit;padding:12px 14px;margin:0 0 10px;border-radius:10px;border:0;background:var(--card);color:var(--ink);cursor:pointer;text-align:left}
 .lvl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 18px;padding:0}
@@ -166,7 +180,7 @@ footer{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align
 <div class="row"><span>Light / Dark mode</span><div class="tog" role="group" aria-label="Color mode"><button data-theme-set="light">Light</button><button data-theme-set="dark">Dark</button></div></div>
 <div class="row"><span id="aidlbl">Player aids</span><button class="sw" id="aids" role="switch" aria-checked="true" aria-labelledby="aidlbl"><i></i></button></div>
 </div></dialog>
-<script>
+<script id="core">
 const $=s=>document.querySelector(s);
 const sq=i=>'abcdefgh'[i&7]+(8-(i>>3));
 const NAME=['Teal','Orange'],PIPS=[0,[4],[3,5],[0,4,8],[0,2,6,8],[0,2,4,6,8],[0,2,3,5,6,8]];
@@ -344,12 +358,24 @@ if(P.smart){let bs=-1e9;for(const q of f){const v=evalB(place(nb,p,q),p,P.w)+Mat
 else r.place=f[Math.floor(Math.random()*f.length)]}}
 return r}
 let self_TS=1,LASTDEPTH=0;
-
+</script>
+<script>
 /* ---- game flow ---- */
+/* save & resume: the whole game is stored on the device after every change */
+const SAVE='sen-save-v1',BLINK='<strong class="blink">Add a 1 to a free space in your base.</strong>';
+function save(){if(!G)return;try{localStorage.setItem(SAVE,JSON.stringify({v:1,b:G.b,turn:G.turn,mode:G.mode,level:G.level,rule:G.rule,clock:G.clock,hz:[...G.hz],last:G.last,text:G.text,over:G.over,pending:G.pending,n:NSTART}))}catch(e){}}
+function restore(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');
+ if(!s||s.v!==1||!Array.isArray(s.b)||s.b.length!==64||!s.b.every(d=>d===null||(d&&(d.o===0||d.o===1)&&d.v>=1&&d.v<=6))||(s.turn!==0&&s.turn!==1)||!PROFILES[s.level])return false;
+ G={b:s.b,rule:s.rule==='adv'?'adv':'std',turn:s.turn,sel:null,pending:Array.isArray(s.pending)?s.pending:null,over:!!s.over,last:s.last||null,busy:false,mode:s.mode===2?2:1,level:s.level,text:s.text||'',clock:s.clock|0,hz:new Map(s.hz||[])};
+ NSTART=s.n||count(G.b,0);zinit();guide();say(G.text);
+ if(G.pending)$('#msg').innerHTML=nm(G.text)+BLINK;
+ if(G.over)$('#new').classList.add('shine');
+ render();maybeAI();return true}catch(e){return false}}
 let G,MODE=1,T,THEME="dark",AIDS=true,LEVEL=2,RULE='std';
-function newGame(){$('#new').classList.remove('shine');clearTimeout(T);clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,text:'',clock:0,hz:new Map()};
-NSTART=count(G.b,0);zinit();seen();$('#gsum').textContent=G.rule==='adv'?'Advanced Rules':'Standard Rules';$('#gin').hidden=G.rule!=='adv';say(`${G.rule==='adv'?'Advanced setup. ':''}Coin flip: <b>${NAME[G.turn]}</b> moves first.`);render();maybeAI()}
+function newGame(){$('#new').classList.remove('shine');clearTimeout(T);AIID++;clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,text:'',clock:0,hz:new Map()};
+NSTART=count(G.b,0);zinit();seen();guide();say(`${G.rule==='adv'?'Advanced setup. ':''}Coin flip: <b>${NAME[G.turn]}</b> moves first.`);render();maybeAI()}
 const isAI=()=>G.mode===1&&G.turn===1;
+function guide(){$('#gsum').textContent=G.rule==='adv'?'Advanced Rules':'Standard Rules';$('#gin').hidden=G.rule!=='adv'}
 function seen(){const k=hkey(toArr(G.b),G.turn),n=(G.hz.get(k)||0)+1;G.hz.set(k,n);return n}
 const sw=o=>`<span class="pd" style="background:var(--${o?'orange':'teal'})"></span>`;
 function endBy(text,panel,note){G.over=true;G.pending=null;say(AIDS?`${G.text} <strong>${text}</strong>`:`<strong>${text}</strong>`);render();showOver(panel,undefined,note)}
@@ -368,7 +394,7 @@ G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim
 if(a.rem&&outOf(G.b,G.turn)>0){const f=freeBase(G.b,G.turn);
  if(f.length){
   if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};say(`${s}, +1 to ${sq(i)}`)}
-  else{G.pending=f;$('#msg').innerHTML=nm(s)+'<strong class="blink">Add a 1 to a free space in your base.</strong>';render();return}
+  else{G.pending=f;$('#msg').innerHTML=nm(s)+BLINK;render();return}
  }}
 finish()}
 function finish(){const o=outcome(G.b,G.turn);G.sel=null;
@@ -386,13 +412,22 @@ if(!moves(G.b,G.turn).length){const prev=NAME[G.turn];G.turn=1-G.turn;
  say(`${G.text} <strong>${prev} has no moves and passes.</strong>`)}
 if(seen()>=3)return endBy('The same board position has occurred 3 times. The game is a Draw.','The game is a Draw.','The same board position has occurred 3 times.');
 render();maybeAI()}
-function maybeAI(){if(G.over||!isAI())return;G.busy=true;
-T=setTimeout(()=>{CLK0=G.clock;HZ=G.hz;const m=aiChoose(G.level,G.b,1);G.busy=false;doMove(m)},650)}
+/* the computer thinks in a background worker so the page never freezes; falls back to the main thread if workers are unavailable */
+let WORKER=null,AIID=0,AIT0=0;
+function aiDone(id,m){if(id!==AIID||!G||G.over||!isAI())return;T=setTimeout(()=>{if(id!==AIID||G.over)return;G.busy=false;doMove(m)},Math.max(0,650-(Date.now()-AIT0)))}
+function aiLocal(id){T=setTimeout(()=>{if(id!==AIID||G.over)return;CLK0=G.clock;HZ=G.hz;const m=aiChoose(G.level,G.b,1);G.busy=false;doMove(m)},Math.max(0,650-(Date.now()-AIT0)))}
+try{WORKER=new Worker(URL.createObjectURL(new Blob([$('#core').textContent,
+ '\nonmessage=e=>{const d=e.data;NSTART=d.n;CLK0=d.clk;HZ=new Map(d.hz);postMessage({id:d.id,m:aiChoose(d.L,d.b,d.p)})}'],{type:'text/javascript'})));
+ WORKER.onmessage=e=>aiDone(e.data.id,e.data.m);
+ WORKER.onerror=e=>{e.preventDefault&&e.preventDefault();WORKER=null;if(G&&G.busy&&isAI()&&!G.over)aiLocal(AIID)}}catch(e){WORKER=null}
+function maybeAI(){if(G.over||!isAI())return;G.busy=true;const id=++AIID;AIT0=Date.now();
+if(WORKER){try{WORKER.postMessage({id,L:G.level,b:G.b,p:1,n:NSTART,clk:G.clock,hz:[...G.hz]});return}catch(e){WORKER=null}}
+aiLocal(id)}
 
 const mk=d=>{const dd=document.createElement('div');dd.className='die o'+d.o;for(let k=0;k<9;k++){const s=document.createElement('i');if(PIPS[d.v].includes(k))s.className='p';dd.appendChild(s)}return dd};
 let LS=null,OV=null;
 function showOver(html,delay,note){clearTimeout(OV);OV=setTimeout(()=>{if(!G.over)return;$('#ovt').innerHTML=html;const p=$('#ovp');p.textContent=note||'';p.hidden=!note;$('#over').hidden=false},delay===undefined?750:delay)}
-function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);G.busy=false;G.over=true;G.pending=null;G.sel=null;
+function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);AIID++;G.busy=false;G.over=true;G.pending=null;G.sel=null;
 const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;say(txt);render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
 /* a move (incl. a last One promoting on the back row) or Capture/Combine that would end the game without a win for the mover (e.g. spending your last One) */
 function selfEnding(m){const a=apply(G.b,m);let b=a.b;
@@ -417,9 +452,10 @@ if(an&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const cells=bd.c
   later.push(()=>{die.style.transition='';die.style.transform='';setTimeout(()=>die.classList.remove('mv'),260)});
   if(an.gone){const g=mk(an.gone);g.classList.add('ghost');dest.insertBefore(g,die);later.push(()=>{g.style.transform='scale(0)';g.style.opacity='0'});setTimeout(()=>g.remove(),340)}}}
 $('#resign').hidden=G.mode!==1;$('#resign').disabled=!!G.over;
-[0,1].forEach(p=>{const n=G.mode===1?(p?PROFILES[G.level].name+' (Orange)':'You (Teal)'):NAME[p];
+[0,1].forEach(p=>{const n=G.mode===1?(p?PROFILES[G.level].name:'You'):NAME[p];
 $('#s'+p).className='pl'+(!G.over&&G.turn===p?' on':'');
-$('#s'+p).innerHTML=`<b style="background:var(--${p?'orange':'teal'})"></b><span class="nm">${n}</span><small>${G.b.filter(d=>d&&d.o===p&&d.v==1).length}${' '}Ones | ${outOf(G.b,p)} dice out</small>`});
+$('#s'+p).innerHTML=`<b style="background:var(--${p?'orange':'teal'})"></b><span class="nm">${n}</span><small><span class="st">${G.b.filter(d=>d&&d.o===p&&d.v==1).length} Ones</span><span class="sep"> | </span><span class="st">${outOf(G.b,p)} dice out</span></small>`});
+save();
 if(later.length){void bd.offsetWidth;requestAnimationFrame(()=>requestAnimationFrame(()=>later.forEach(f=>f())))}}
 
 const dlg=$('#dlg'),lvl=$('#lvl');
@@ -437,7 +473,7 @@ $('#x').onclick=()=>dlg.close();
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 dlg.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{MODE=+b.dataset.mode;dlg.close();newGame()});
 const set=$('#set');
-function prefs(){document.documentElement.dataset.theme=THEME;document.body.classList.toggle('noaids',!AIDS);
+function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';document.body.classList.toggle('noaids',!AIDS);
 document.querySelectorAll('[data-theme-set]').forEach(b=>{const on=b.dataset.themeSet===THEME;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
 $('#aids').setAttribute('aria-checked',AIDS);
 document.querySelectorAll('[data-rule]').forEach(b=>{const on=b.dataset.rule===RULE;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
@@ -450,7 +486,9 @@ document.querySelectorAll('[data-theme-set]').forEach(b=>b.onclick=()=>{THEME=b.
 $('#aids').onclick=()=>{AIDS=!AIDS;prefs()};
 document.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{RULE=b.dataset.rule;prefs()});
 lvl.value=LEVEL;prefs();
-newGame();
+if(!restore())newGame();
+/* installable app: work offline after the first visit */
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{})});
 </script>
 </body>
 </html>
