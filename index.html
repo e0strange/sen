@@ -22,13 +22,13 @@
 @font-face{font-family:"League Spartan";src:url("fonts/LeagueSpartan-SemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
 *{box-sizing:border-box}
 :root{--br:calc(min(100vw - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px), 600px) * .02527)}
-html{height:100%;overflow:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
-body{height:100%;overflow-y:auto;scrollbar-gutter:stable both-edges;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html{scrollbar-gutter:stable;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 .guide,.gin,.gend,footer{-webkit-user-select:text;user-select:text}
 #board{-webkit-touch-callout:none}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 calc(12px + env(safe-area-inset-right,0px)) 0 calc(12px + env(safe-area-inset-left,0px))}
 main{width:min(100%,600px);margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:calc(28px + env(safe-area-inset-top,0px)) 0 calc(28px + env(safe-area-inset-bottom,0px))}
-.mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 0}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:40px 0 28px}
 h1{font:600 2.2rem/1 "League Spartan",Verdana,sans-serif;margin:0 0 0 12px;letter-spacing:-.02em}
 .hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:12px;font:13px/1.5 var(--mono)}
 .ht{text-align:left}
@@ -98,9 +98,9 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .die i{display:block}
 .die i.p{position:relative;overflow:hidden;border-radius:50%;width:74%;height:74%;margin:auto;background:rgba(255,255,255,.7)}
 .die i.p::after{content:"";position:absolute;inset:0;transform:translateY(19%);border-radius:50%;background:#fff}
-.msg{margin:12px 0;padding:10px 14px;border-radius:var(--br);background:var(--pill);color:var(--pilltx);font:14px/1.5 var(--mono)}
+.msg{margin:10px 0 0;padding:10px 14px;border-radius:var(--br);background:var(--pill);color:var(--pilltx);font:14px/1.5 var(--mono)}
 .msg strong{display:block}
-details{background:var(--panel);border-radius:var(--br);padding:10px 14px;font-size:13px}
+details{margin-top:10px;background:var(--panel);border-radius:var(--br);padding:10px 14px;font-size:13px}
 summary{cursor:pointer;font:600 14px/1.5 "League Spartan",Verdana,sans-serif;list-style:none;display:flex;align-items:center}
 summary::-webkit-details-marker{display:none}
 summary::before{content:"";width:5px;height:5px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);margin:0 10px 0 1px;transition:transform .2s ease-out;flex:none}
@@ -140,7 +140,7 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .n0{color:var(--teal)}.n1{color:var(--orange)}
 .no-dice .pl small,.no-rules details{display:none}
 .msg[hidden]{display:none}
-.msg .mv,.msg .tp{white-space:nowrap;overflow:hidden;display:block;line-height:21px}
+.msg .mv{display:block;line-height:21px}
 .msg .tp{opacity:.9}.msg .mv+.tp,.msg .mv+strong,.msg .tp+strong{margin-top:4px}
 .subs{margin:-4px 0 14px 16px}.subs[hidden]{display:none}.row.sub{margin-bottom:10px}
 .row.sub .sw{transform:scale(.85);transform-origin:right center}
@@ -164,13 +164,13 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="msg" id="msg" aria-live="polite"></div>
 <details>
 <summary id="gsum">Standard Rules</summary>
-<p class="gin" id="gin" hidden>In Advanced sen, starting configurations are randomized. Within the starting area, random rolls that add up to 10 are reflected across the board. Configurations will always feature at least 1 One. Besides this, Standard rules apply:</p>
+<p class="gin" id="gin" hidden>In Advanced sen, starting configurations are randomized. Within each base, random rolls that add up to 10 are reflected across the board. Configurations will always feature at least 1 One. Besides this, Standard rules apply:</p>
 <ul class="guide">
 <li><span class="dc" aria-hidden="true">⚀</span><span><b>Win:</b> There are two ways to win in sen. Perfect Victory is when you’re the first to place two Sixes in the 4 central squares (marked by corner brackets). Lesser Victory is when you leave your opponent with no Ones. (If both players lose their last One at once, it’s a Draw.)</span></li>
 <li><span class="dc" aria-hidden="true">⚁</span><span><b>Move:</b> A die can move from 1 to its face value in squares on the board. Even numbers move up/down/left/right, odd numbers move diagonally. Ones can move any direction. Dice can’t jump over others (except Fives, which can pass through any dice).</span></li>
 <li><span class="dc" aria-hidden="true">⚂</span><span><b>Capture:</b> A smaller die can never capture a die of greater value. If your die lands on an opponent’s die that’s of lower value, its value is subtracted from your die. If your opponent’s die is of equal value, its value is added.</span></li>
 <li><span class="dc" aria-hidden="true">⚃</span><span><b>Combine:</b> Move onto your own die of equal value to merge them into one. Their values add up!</span></li>
-<li><span class="dc" aria-hidden="true">⚄</span><span><b>Over 6:</b> Whenever the result of your Capture/Combination would exceed 6, the die in question becomes a Six, and you return one of your lost dice as a One to any free square in your starting area.</span></li>
+<li><span class="dc" aria-hidden="true">⚄</span><span><b>Over 6:</b> Whenever the result of your Capture/Combination would exceed 6, the die in question becomes a Six, and you return one of your lost dice as a One to any free square in your base.</span></li>
 <li><span class="dc" aria-hidden="true">⚅</span><span><b>Back Line:</b> A One that reaches the opponent’s back row becomes a Six. (This also applies if a capture results in a One on an opponent’s back row.)</span></li>
 </ul>
 <p class="gend"><b>Rare Outcomes:</b> If a board state is repeated 3 times, the game ends in a draw. If 36 consecutive moves occur without a Capture or Combination, the player with the most Ones wins.</p>
@@ -199,10 +199,9 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="subs" id="subs">
 <div class="row sub"><span id="a_dice">Dice Tracker</span><button class="sw" data-aid="dice" role="switch" aria-labelledby="a_dice"><i></i></button></div>
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
-<div class="row sub"><span id="a_tips">Teaching Tips</span><button class="sw" data-aid="tips" role="switch" aria-labelledby="a_tips"><i></i></button></div>
 <div class="row sub"><span id="a_rules">Rule Sheet</span><button class="sw" data-aid="rules" role="switch" aria-labelledby="a_rules"><i></i></button></div>
 </div>
-<p class="ver">v0.714</p>
+<p class="ver">v0.723</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -458,7 +457,7 @@ let self_TS=1,LASTDEPTH=0;
 <script>
 /* ---- game flow ---- */
 /* save & resume: the whole game is stored on the device after every change */
-const SAVE='sen-save-v1',BLINK='<strong class="blink tp">Return a One to your starting area.</strong>',WORD=['','One','Two','Three','Four','Five','Six'];
+const SAVE='sen-save-v1',WORD=['','One','Two','Three','Four','Five','Six'];
 function save(){if(!G)return;try{localStorage.setItem(SAVE,JSON.stringify({v:1,b:G.b,turn:G.turn,mode:G.mode,level:G.level,rule:G.rule,clock:G.clock,hz:[...G.hz],last:G.last,note:G.note,tip:G.tip,over:G.over,pending:G.pending,n:NSTART}))}catch(e){}}
 function restore(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');
  if(!s||s.v!==1||!Array.isArray(s.b)||s.b.length!==64||!s.b.every(d=>d===null||(d&&(d.o===0||d.o===1)&&d.v>=1&&d.v<=6))||(s.turn!==0&&s.turn!==1)||!PROFILES[s.level])return false;
@@ -466,9 +465,9 @@ function restore(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');
  NSTART=s.n||count(G.b,0);zinit();guide();
  if(G.over)$('#new').classList.add('shine');
  render();maybeAI();return true}catch(e){return false}}
-let G,MODE=1,T,THEME="dark",AID={dice:true,moves:true,tips:true,rules:true},LEVEL=2,RULE='std';
+let G,MODE=1,T,THEME="dark",AID={dice:true,moves:true,rules:true},LEVEL=2,RULE='std';
 function newGame(){if(typeof stopThinking==='function')stopThinking();LONES=[-1,-1];$('#new').classList.remove('shine');clearTimeout(T);AIID++;clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,note:'',tip:'',clock:0,hz:new Map()};
-NSTART=count(G.b,0);zinit();seen();guide();G.note=`${G.rule==='adv'?'Advanced setup. ':''}${NAME[G.turn]} moves first.`;G.tip='The first player is selected at random.';render();maybeAI()}
+NSTART=count(G.b,0);zinit();seen();guide();G.note=`Let’s go! ${NAME[G.turn]} moves first.`;G.tip='';render();maybeAI()}
 const isAI=()=>G.mode===1&&G.turn===1;
 function guide(){$('#gsum').textContent=G.rule==='adv'?'Advanced Rules':'Standard Rules';$('#gin').hidden=G.rule!=='adv'}
 function seen(){const k=hkey(toArr(G.b),G.turn),n=(G.hz.get(k)||0)+1;G.hz.set(k,n);return n}
@@ -478,15 +477,12 @@ const code=(o,s)=>` // <span class="n${o}">${o?'O':'T'}</span>${s}`;
 function endBy(c,tip,panel,note){G.over=true;G.pending=null;G.note+=c;G.tip=tip;render();showOver(panel,undefined,note)}
 const nm=t=>t.replace(/\b(Orange|Teal)\b/g,(w)=>`<span class="n${w=='Teal'?0:1}">${w}</span>`);
 /* the panel below the board: one line of notation (Move Tracker) + plain-English Teaching Tips */
-function selTip(){if(G.over||G.sel===null||G.pending)return '';const d=G.b[G.sel];if(!d)return '';const v=d.v,W=v===6?'Sixes':WORD[v]+'s';
- const ms=moves(G.b,G.turn).filter(m=>m.f===G.sel);
- if(ms.some(m=>selfEnding(m)))return `${NAME[G.turn]} is low on Ones.`;
- return v===1?'Ones move 1 square, any direction.':v===5?'Fives move diagonally, through dice.':v%2?`${W} move diagonally, up to ${v}.`:`${W} move straight, up to ${v}.`}
 function paint(){const m=$('#msg');let h='';
- if(AID.moves&&G.note)h+=`<div class="mv">${nm(G.note)}</div>`;
- if(AID.tips){if(G.pending&&!isAI()&&!G.over)h+=BLINK;else{const t=selTip()||G.tip;h+=t?`<div class="tp">${nm(t)}</div>`:'<div class="tp" aria-hidden="true">&nbsp;</div>'}}
+ if(AID.moves&&G.note){const pend=G.pending&&!isAI()&&!G.over,ex=G.over&&G.tip;
+  h+=`<div class="mv">${pend?'<span class="blink">Return a One to your base.</span>':nm(G.note)+(ex?' '+nm(G.tip):'')}</div>`}
  m.innerHTML=h;m.hidden=!h;
- m.querySelectorAll('.mv,.tp').forEach(x=>{let s=14;while(x.scrollWidth>x.clientWidth+1&&s>9){s-=.5;x.style.fontSize=s+'px'}})}
+ /* two lines at most: shrink the text slightly if it would need a third */
+ m.querySelectorAll('.mv').forEach(x=>{let s=14;while(x.scrollHeight>44&&s>9){s-=.5;x.style.fontSize=s+'px';x.style.lineHeight=Math.round(s*1.5)+'px'}})}
 addEventListener('resize',()=>{if(G)paint()});
 function click(i){if(G.over||G.busy||isAI())return;
 if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];G.note+=`, +1 to ${sq(i)}`;finish()}return}
@@ -497,13 +493,7 @@ function doMove(m){const d=G.b[m.f],t=G.b[m.t],who=NAME[G.turn];
 const a=apply(G.b,m),nd=a.b[m.t];
 const sep=m.k=='c'?'x':m.k=='j'?'+':'';
 let s=`${who} ${d.v} ${sq(m.f)}${sep}${sq(m.t)}`+(nd.v!==d.v||a.rem?` → ${nd.v}`:'');
-let tip='';
-const eq=m.k==='j'||(t&&t.v===d.v);
-if(a.rem)tip=outOf(a.b,G.turn)>0?'Over 6: Return a One to starting area.':'Cannot return a One (no lost dice).';
-else if(m.k==='c')tip=eq?`Equal capture: ${d.v} + ${t.v} = ${d.v+t.v}.`:`Capture: ${d.v} − ${t.v} = ${d.v-t.v}.`;
-else if(m.k==='j')tip=`Combine: ${d.v} + ${t.v} = ${d.v+t.v}.`;
-{const pre=m.k==='m'?d.v:m.k==='j'||t.v===d.v?d.v+t.v:d.v-t.v;if(pre===1&&nd.v===6)tip='Back Line: The One becomes a Six.'}
-G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};G.note=s;G.tip=tip.trim();
+G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};G.note=s;G.tip='';
 if(a.rem&&outOf(G.b,G.turn)>0){const f=freeBase(G.b,G.turn);
  if(f.length){
   if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};G.spawn={i,delay:.22};G.note+=`, +1 to ${sq(i)}`}
@@ -514,17 +504,17 @@ function finish(){const o=outcome(G.b,G.turn);G.sel=null;
 if(o!==null){G.over=true;G.pending=null;
  const perf=o!=='draw'&&G.b.filter((d,i)=>d&&d.o===o&&d.v==6&&(i>>3)>=3&&(i>>3)<=4&&(i&7)>=3&&(i&7)<=4).length>=2;
  G.note+=o==='draw'?' // =':code(o,perf?'#!':'#-');
- G.tip=o==='draw'?'Draw: Both players lost their last One.':perf?'Perfect Victory: Two Sixes in the center.':`Lesser Victory: ${NAME[1-o]} has no Ones.`;
+ G.tip=o==='draw'?'(Draw: both players lost their last One)':perf?`(${NAME[o]} wins by Perfect Victory: two center Sixes)`:`(${NAME[o]} wins by Lesser Victory: ${NAME[1-o]} has no Ones)`;
  render();
  showOver(o==='draw'?'The game is a draw':`<span class="pd" style="background:var(--${o?'orange':'teal'})"></span>${NAME[o]} wins by ${perf?'Perfect':'Lesser'} Victory`);return}
 if(G.clock>=LIM){const w=tie(toArr(G.b)),n36='36 consecutive moves occurred without a capture or combination.';
- if(w===2)return endBy(' // =36','36-move rule: Equal Ones, Draw.','Both players have the same number of Ones. The game is a Draw.',n36);
- return endBy(code(w,'#36'),`36-move rule: ${NAME[w]} has more Ones.`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,n36)}
+ if(w===2)return endBy(' // =36','(Draw by 36-move rule: equal Ones)','Both players have the same number of Ones. The game is a Draw.',n36);
+ return endBy(code(w,'#36'),`(${NAME[w]} wins by 36-move rule: more Ones)`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,n36)}
 G.turn=1-G.turn;
 if(!moves(G.b,G.turn).length){const prev=NAME[G.turn];G.turn=1-G.turn;
- if(!moves(G.b,G.turn).length)return endBy(' // =','Draw: No one can move.','No one can move. The game is a Draw.');
- G.note+=` · <span class="n${1-G.turn}">${prev[0]}</span> passes`;G.tip=`${prev} has no moves and passes.`}
-if(seen()>=3)return endBy(' // =3','Draw: Same position 3 times.','The game is a Draw.','The same board position has occurred 3 times.');
+ if(!moves(G.b,G.turn).length)return endBy(' // =','(Draw: no one can move)','No one can move. The game is a Draw.');
+ G.note+=` | ${prev} passes`}
+if(seen()>=3)return endBy(' // =3','(Draw by repetition: same position 3 times)','The game is a Draw.','The same board position has occurred 3 times.');
 render();maybeAI()}
 /* the computer thinks in a background worker so the page never freezes; falls back to the main thread if workers are unavailable */
 let WORKER=null,AIID=0,AIT0=0;
@@ -548,7 +538,7 @@ function onesCls(p){const n=G.b.filter(d=>d&&d.o===p&&d.v==1).length,prev=LONES[
 return n===1?' warn'+(prev!==1?' fadein':''):n===0?' zero':''}
 function showOver(html,delay,note){clearTimeout(OV);OV=setTimeout(()=>{if(!G.over)return;$('#ovt').innerHTML=html;const p=$('#ovp');p.textContent=note||'';p.hidden=!note;$('#over').hidden=false},delay===undefined?750:delay)}
 function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);AIID++;stopThinking();G.busy=false;G.over=true;G.pending=null;G.sel=null;
-const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;G.note=`${NAME[0]} resigns`+code(1,'#r');G.tip=`${NAME[0]} resigns. ${NAME[1]} wins.`;render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
+const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;G.note=`${NAME[0]} resigns`+code(1,'#r');G.tip=`(${NAME[1]} wins)`;render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
 /* a move (incl. a last One promoting on the back row) or Capture/Combine that would end the game without a win for the mover (e.g. spending your last One) */
 function selfEnding(m){const a=apply(G.b,m);let b=a.b;
 if(a.rem&&outOf(b,G.turn)>0){const f=freeBase(b,G.turn);if(f.length)b[f[0]]={o:G.turn,v:1}}
@@ -593,7 +583,7 @@ $('#x').onclick=()=>dlg.close();
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 dlg.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{MODE=+b.dataset.mode;dlg.close();newGame()});
 const set=$('#set');
-function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';['dice','moves','tips','rules'].forEach(k=>document.body.classList.toggle('no-'+k,!AID[k]));
+function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';['dice','moves','rules'].forEach(k=>document.body.classList.toggle('no-'+k,!AID[k]));
 document.querySelectorAll('[data-theme-set]').forEach(b=>{const on=b.dataset.themeSet===THEME;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
 const anyAid=Object.values(AID).some(Boolean);$('#aids').setAttribute('aria-checked',anyAid);$('#subs').hidden=!anyAid;
 document.querySelectorAll('[data-aid]').forEach(b=>b.setAttribute('aria-checked',!!AID[b.dataset.aid]));if(G)paint();
