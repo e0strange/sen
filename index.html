@@ -21,6 +21,7 @@
 @font-face{font-family:"Space Mono";src:url("fonts/SpaceMono-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:"League Spartan";src:url("fonts/LeagueSpartan-SemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
 *{box-sizing:border-box}
+:root{--br:calc(min(100vw - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px), 600px) * .02527)}
 html{scrollbar-gutter:stable both-edges;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
 body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 .guide,.gin,.gend,footer{-webkit-user-select:text;user-select:text}
@@ -38,12 +39,14 @@ button.ctl{min-height:36px}
 button.ctl:disabled{opacity:.45;cursor:default}
 select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;background:var(--panel);color:var(--ink);cursor:pointer}
 .players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;font:13px/1.5 var(--mono)}
-.pl{background:var(--panel);border-radius:10px;padding:8px 12px 4px;border-bottom:4px solid transparent}
+.pl{background:var(--panel);border-radius:var(--br);padding:8px 12px 4px;border-bottom:4px solid transparent}
 .pl.on{border-bottom-color:var(--turn)}
 .pl b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px}
 .nm{font:600 18px/1.4 "League Spartan",Verdana,sans-serif}
 .die.mv{z-index:5;transition:transform .2s ease-in-out,box-shadow .18s ease-out}
 .die.pop i.p{animation:pop .48s ease-out .2s both}
+.die.spawn{animation:spawn .5s cubic-bezier(.3,.7,.4,1) both}
+@keyframes spawn{0%{transform:scale(.25);opacity:0}45%{transform:scale(1.16);opacity:1}75%{transform:scale(.95)}100%{transform:scale(1)}}
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.2)}70%{transform:scale(.85)}100%{transform:scale(1)}}
 .die.ghost{transition:transform .2s ease-in,opacity .02s linear .2s}
 #resign[hidden]{display:none}
@@ -66,7 +69,7 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .start{flex:none;font:600 17px/1 "League Spartan",Verdana,sans-serif;padding:13px 20px 11px;border:0;border-radius:999px;background:var(--ink);color:var(--card);cursor:pointer}
 .start:hover{filter:brightness(1.08)}
 .start:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.ov .opt{text-align:center}#rs .opt{border-radius:999px;text-align:center}.ov .opt:last-child{margin-bottom:0}
+.ov .opt{text-align:center;border-radius:999px}#rs .opt{border-radius:999px;text-align:center}.ov .opt:last-child{margin-bottom:0}
 .pd{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px}
 .pl small{display:block;opacity:.85;font-size:clamp(9px,calc((50vw - 50px) / 11.8),14px);white-space:nowrap}
 .wrap{position:relative}
@@ -89,10 +92,10 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .die i{display:block}
 .die i.p{position:relative;overflow:hidden;border-radius:50%;width:74%;height:74%;margin:auto;background:rgba(255,255,255,.7)}
 .die i.p::after{content:"";position:absolute;inset:0;transform:translateY(19%);border-radius:50%;background:#fff}
-.msg{margin:12px 0;padding:10px 20px;border-radius:22px;background:var(--pill);color:var(--pilltx);font:14px/1.5 var(--mono)}
+.msg{margin:12px 0;padding:10px 14px;border-radius:var(--br);background:var(--pill);color:var(--pilltx);font:14px/1.5 var(--mono)}
 .msg:empty{display:none}
 .msg strong{display:block}
-details{background:var(--panel);border-radius:10px;padding:10px 14px;font-size:13px}
+details{background:var(--panel);border-radius:var(--br);padding:10px 14px;font-size:13px}
 summary{cursor:pointer;font:600 14px/1.5 "League Spartan",Verdana,sans-serif;list-style:none;display:flex;align-items:center}
 summary::-webkit-details-marker{display:none}
 summary::before{content:"";width:5px;height:5px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);margin:0 10px 0 1px;transition:transform .2s ease-out;flex:none}
@@ -119,6 +122,8 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .tog button:disabled{opacity:.55}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
 .row .tog{margin:0}
+.mb .ver{margin:4px 0 0;text-align:left}
+.lvl.mode{margin:0 0 16px}.lvl.mode .tog{margin:0;flex:0 1 230px}
 .sw{width:46px;height:26px;border-radius:999px;border:1px solid currentColor;background:transparent;position:relative;cursor:pointer;color:var(--ink);padding:0;flex:none}
 .sw i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:currentColor;transition:transform .15s}
 .sw[aria-checked=true]{background:var(--ink)}
@@ -127,7 +132,7 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .n0{color:var(--teal)}.n1{color:var(--orange)}
 .noaids .pl small,.noaids details{display:none}
 .noaids .msg{display:none}.noaids .msg.keep{display:block}
-footer{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align:center}
+footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align:center}
 @media(prefers-reduced-motion:reduce){.over{animation:none}.cell.pick::after,.blink{animation:none}.die{transition:none}}
 </style>
 </head>
@@ -169,16 +174,17 @@ footer{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align
 <dialog id="dlg"><div class="mb">
 <button class="x" id="x" aria-label="Close">×</button>
 <h2>New Game</h2>
+<div class="lvl mode"><span>Mode</span><div class="tog" role="group" aria-label="Rule set"><button data-rule="std">Standard</button><button data-rule="adv">Advanced</button></div></div>
 <div class="prow"><span class="pico"><svg class="pic" viewBox="11.6 8.8 8.7 16" width="11" height="20" aria-hidden="true"><circle cx="15.97" cy="11.8" r="2.77"/><path d="M13.36,24.58c-.86,0-1.55-.65-1.49-1.41.39-5.82,2.51-9.63,4.1-9.63s3.7,3.81,4.1,9.63c.05.76-.63,1.41-1.49,1.41h-5.2Z"/></svg></span><span class="plb" id="p1lb">1 Player</span><button class="start" data-mode="1" aria-describedby="p1lb">Start</button></div>
 <label class="lvl"><span>Computer Level</span><select id="lvl" aria-label="Computer Level"></select></label>
 <div class="prow"><span class="pico"><svg class="pic" viewBox="6.7 8.8 18.5 16" width="23" height="20" aria-hidden="true"><circle cx="11.07" cy="11.8" r="2.77"/><path d="M8.46,24.58c-.86,0-1.55-.65-1.49-1.41.39-5.82,2.51-9.63,4.1-9.63s3.7,3.81,4.1,9.63c.05.76-.63,1.41-1.49,1.41h-5.2Z"/><circle cx="20.87" cy="11.8" r="2.77"/><path d="M18.26,24.58c-.86,0-1.55-.65-1.49-1.41.39-5.82,2.51-9.63,4.1-9.63s3.7,3.81,4.1,9.63c.05.76-.63,1.41-1.49,1.41h-5.2Z"/></svg></span><span class="plb" id="p2lb">2 Players</span><button class="start" data-mode="2" aria-describedby="p2lb">Start</button></div>
-<div class="tog" role="group" aria-label="Rule set"><button data-rule="std">Standard</button><button data-rule="adv">Advanced</button></div>
 </div></dialog>
 <dialog id="set"><div class="mb">
 <button class="x" id="x2" aria-label="Close">×</button>
 <h2>Settings</h2>
 <div class="row"><span>Light / Dark mode</span><div class="tog" role="group" aria-label="Color mode"><button data-theme-set="light">Light</button><button data-theme-set="dark">Dark</button></div></div>
 <div class="row"><span id="aidlbl">Player aids</span><button class="sw" id="aids" role="switch" aria-checked="true" aria-labelledby="aidlbl"><i></i></button></div>
+<p class="ver">v0.7</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -382,7 +388,7 @@ function endBy(text,panel,note){G.over=true;G.pending=null;say(AIDS?`${G.text} <
 const nm=t=>t.replace(/\b(Orange|Teal)\b/g,(w)=>`<span class="n${w=='Teal'?0:1}">${w}</span>`);
 function say(t){G.text=t;const m=$('#msg');m.innerHTML=nm(t);m.className='msg'+(G.over?' keep':'')}
 function click(i){if(G.over||G.busy||isAI())return;
-if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.pending=null;G.last=[...G.last,i];say(`${G.text}, +1 to ${sq(i)}`);finish()}return}
+if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];say(`${G.text}, +1 to ${sq(i)}`);finish()}return}
 const d=G.b[i];
 if(G.sel!==null){const m=moves(G.b,G.turn).find(m=>m.f===G.sel&&m.t===i);if(m)return doMove(m)}
 G.sel=(d&&d.o===G.turn&&G.sel!==i)?i:null;render()}
@@ -393,7 +399,7 @@ let s=`${who} ${d.v} ${sq(m.f)}${sep}${sq(m.t)}`+(nd.v!==d.v||a.rem?` → ${nd.v
 G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};say(s);
 if(a.rem&&outOf(G.b,G.turn)>0){const f=freeBase(G.b,G.turn);
  if(f.length){
-  if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};say(`${s}, +1 to ${sq(i)}`)}
+  if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};G.spawn={i,delay:.22};say(`${s}, +1 to ${sq(i)}`)}
   else{G.pending=f;$('#msg').innerHTML=nm(s)+BLINK;render();return}
  }}
 finish()}
@@ -438,14 +444,14 @@ const legal=G.sel!==null?moves(G.b,G.turn).filter(m=>m.f===G.sel):[];
 for(let i=0;i<64;i++){const r=i>>3,c=i&7,el=document.createElement('button');
 el.className='cell '+((r+c)%2?'d':'l');const d=G.b[i];
 el.setAttribute('aria-label',`row ${r+1}, column ${c+1}${d?', '+NAME[d.o]+' '+d.v:', empty'}`);
-if(d)el.appendChild(mk(d));
+if(d){const dd=mk(d);if(G.spawn&&G.spawn.i===i&&!matchMedia('(prefers-reduced-motion: reduce)').matches){dd.classList.add('spawn');dd.style.animationDelay=G.spawn.delay+'s'}el.appendChild(dd)}
 const m=legal.find(m=>m.t===i);if(m){el.classList.add(m.k);if(selfEnding(m))el.classList.add('xd')}
 if(G.sel===i){if(prev===i||!d)el.classList.add('sel');else later.push(()=>el.classList.add('sel'))}
 else if(prev===i&&d&&G.sel!==i){el.classList.add('sel');later.push(()=>el.classList.remove('sel'))}
 if(G.last&&G.last.includes(i))el.classList.add(G.last.length==2&&G.last[0]===i?'lastf':'last');
 if(G.pending&&G.pending.includes(i))el.classList.add('pick');
 el.onclick=()=>click(i);bd.appendChild(el)}
-const an=G.anim;G.anim=null;
+G.spawn=null;const an=G.anim;G.anim=null;
 if(an&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const cells=bd.children,dest=cells[an.t],die=dest.querySelector('.die');
  if(die){const cw=cells[0].offsetWidth,ch=cells[0].offsetHeight,dx=((an.f&7)-(an.t&7))*cw,dy=((an.f>>3)-(an.t>>3))*ch;
   die.classList.add('mv');if(an.gone)die.classList.add('pop');die.style.transition='none';die.style.transform=`translate(${dx}px,${dy}px) scale(1.06) rotate(2deg)`;
