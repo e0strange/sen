@@ -33,6 +33,10 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.2)}70%{transform:scale(.85)}100%{transform:scale(1)}}
 .die.ghost{transition:transform .2s ease-in,opacity .02s linear .2s}
 #resign[hidden]{display:none}
+#new{position:relative;overflow:hidden}
+#new.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(130deg,transparent 25%,rgba(255,255,255,.34) 28%,rgba(255,255,255,.34) 37%,transparent 40%,transparent 46%,rgba(255,255,255,.34) 48%,rgba(255,255,255,.34) 50%,transparent 52%);transform:translateX(-120%);animation:shine 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%{transform:translateX(-120%)}38%,100%{transform:translateX(120%)}}
+@media(prefers-reduced-motion:reduce){#new.shine::after{animation:none;transform:none;background:rgba(255,255,255,.12)}}
 .over{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:30;pointer-events:none;animation:ovin .3s ease-out}
 .over::before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(10,20,22,.45);pointer-events:auto}
 .ov{pointer-events:auto}
@@ -58,8 +62,10 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .cell.lastf{background:rgba(204,239,77,.67)}
 .cell.sel .die{--rc:#bed975;--rw:4px;transform:scale(1.06) rotate(2deg)}
 .cell.m::after,.cell.pick::after{content:"";width:13.47%;height:13.47%;border-radius:50%;background:var(--dot)}
+.cell.m.xd::after{background:#e55353}
 .cell.pick::after{animation:pk .8s ease-in-out infinite alternate}
 .cell.c .die,.cell.j .die{--rc:#f0b85f;--rw:4px}
+.cell.xd .die{--rc:#e55353}
 @keyframes pk{from{opacity:1}to{opacity:.2}}
 .blink{color:var(--note);animation:bl 1.1s ease-in-out infinite}
 @keyframes bl{50%{opacity:.15}}
@@ -341,7 +347,7 @@ let self_TS=1,LASTDEPTH=0;
 
 /* ---- game flow ---- */
 let G,MODE=1,T,THEME="dark",AIDS=true,LEVEL=2,RULE='std';
-function newGame(){clearTimeout(T);clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,text:'',clock:0,hz:new Map()};
+function newGame(){$('#new').classList.remove('shine');clearTimeout(T);clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,text:'',clock:0,hz:new Map()};
 NSTART=count(G.b,0);zinit();seen();$('#gsum').textContent=G.rule==='adv'?'Advanced Rules':'Standard Rules';$('#gin').hidden=G.rule!=='adv';say(`${G.rule==='adv'?'Advanced setup. ':''}Coin flip: <b>${NAME[G.turn]}</b> moves first.`);render();maybeAI()}
 const isAI=()=>G.mode===1&&G.turn===1;
 function seen(){const k=hkey(toArr(G.b),G.turn),n=(G.hz.get(k)||0)+1;G.hz.set(k,n);return n}
@@ -388,13 +394,17 @@ let LS=null,OV=null;
 function showOver(html,delay,note){clearTimeout(OV);OV=setTimeout(()=>{if(!G.over)return;$('#ovt').innerHTML=html;const p=$('#ovp');p.textContent=note||'';p.hidden=!note;$('#over').hidden=false},delay===undefined?750:delay)}
 function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);G.busy=false;G.over=true;G.pending=null;G.sel=null;
 const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;say(txt);render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
+/* a move (incl. a last One promoting on the back row) or Capture/Combine that would end the game without a win for the mover (e.g. spending your last One) */
+function selfEnding(m){const a=apply(G.b,m);let b=a.b;
+if(a.rem&&outOf(b,G.turn)>0){const f=freeBase(b,G.turn);if(f.length)b[f[0]]={o:G.turn,v:1}}
+const o=outcome(b,G.turn);return o!==null&&o!==G.turn}
 function render(){const bd=$('#board');bd.innerHTML='';const prev=LS,later=[];LS=G.sel;
 const legal=G.sel!==null?moves(G.b,G.turn).filter(m=>m.f===G.sel):[];
 for(let i=0;i<64;i++){const r=i>>3,c=i&7,el=document.createElement('button');
 el.className='cell '+((r+c)%2?'d':'l');const d=G.b[i];
 el.setAttribute('aria-label',`row ${r+1}, column ${c+1}${d?', '+NAME[d.o]+' '+d.v:', empty'}`);
 if(d)el.appendChild(mk(d));
-const m=legal.find(m=>m.t===i);if(m)el.classList.add(m.k);
+const m=legal.find(m=>m.t===i);if(m){el.classList.add(m.k);if(selfEnding(m))el.classList.add('xd')}
 if(G.sel===i){if(prev===i||!d)el.classList.add('sel');else later.push(()=>el.classList.add('sel'))}
 else if(prev===i&&d&&G.sel!==i){el.classList.add('sel');later.push(()=>el.classList.remove('sel'))}
 if(G.last&&G.last.includes(i))el.classList.add(G.last.length==2&&G.last[0]===i?'lastf':'last');
@@ -422,7 +432,7 @@ $('#rsno').onclick=()=>rs.close();
 $('#rsok').onclick=()=>{rs.close();resign()};
 rs.addEventListener('click',e=>{if(e.target===rs)rs.close()});
 $('#ovnew').onclick=()=>dlg.showModal();
-$('#ovrev').onclick=()=>{$('#over').hidden=true};
+$('#ovrev').onclick=()=>{$('#over').hidden=true;$('#new').classList.add('shine')};
 $('#x').onclick=()=>dlg.close();
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 dlg.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{MODE=+b.dataset.mode;dlg.close();newGame()});
