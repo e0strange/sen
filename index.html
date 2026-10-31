@@ -22,8 +22,8 @@
 @font-face{font-family:"League Spartan";src:url("fonts/LeagueSpartan-SemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
 *{box-sizing:border-box}
 :root{--br:calc(min(100vw - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px), 600px) * .02527)}
-html{scrollbar-gutter:stable both-edges;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
-body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html{height:100%;overflow:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+body{height:100%;overflow-y:auto;scrollbar-gutter:stable both-edges;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 .guide,.gin,.gend,footer{-webkit-user-select:text;user-select:text}
 #board{-webkit-touch-callout:none}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 calc(12px + env(safe-area-inset-right,0px)) 0 calc(12px + env(safe-area-inset-left,0px))}
@@ -59,7 +59,7 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .ov{pointer-events:auto}
 .over[hidden]{display:none}
 @keyframes ovin{from{opacity:0}}
-.ov{background:var(--panel);color:var(--ink);border-radius:16px;padding:22px;width:min(78%,340px);box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:center}
+.ov{background:var(--panel);color:var(--ink);border-radius:16px;padding:22px;width:min(78%,340px);box-shadow:0 10px 32px rgba(0,0,0,.22),0 2px 8px rgba(0,0,0,.12);text-align:center}
 .ovn{margin:0 0 10px;font:13px/1.5 var(--mono);opacity:.85}.ovn[hidden]{display:none}
 .ov h2{margin:0 0 16px;font:600 18px/1.35 "League Spartan",Verdana,sans-serif}
 .prow{display:flex;align-items:center;background:var(--card);border-radius:999px;padding:6px 6px 6px 0;margin:0 0 10px}
@@ -71,7 +71,13 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .start:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .ov .opt{text-align:center;border-radius:999px}#rs .opt{border-radius:999px;text-align:center}.ov .opt:last-child{margin-bottom:0}
 .pd{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px}
-.pl small{display:block;opacity:.85;font-size:clamp(9px,calc((50vw - 50px) / 11.8),14px);white-space:nowrap}
+.pl .st.warn{color:#e55353}
+.pl .st.fadein{animation:ofade .6s ease-out}
+@keyframes ofade{from{color:var(--ink)}}
+.pl .st.zero{animation:opulse 1.2s ease-in-out infinite alternate}
+@keyframes opulse{from{color:#e55353}to{color:var(--ink)}}
+@media(prefers-reduced-motion:reduce){.pl .st.fadein{animation:none}.pl .st.zero{animation:none;color:#e55353}}
+.pl small{display:block;opacity:.85;font-size:clamp(9px,calc((50vw - 50px) / 12.4),14px);white-space:nowrap}
 .wrap{position:relative}
 .board{display:grid;grid-template:repeat(8,minmax(0,1fr))/repeat(8,minmax(0,1fr));aspect-ratio:1;background:var(--board) center/100% 100% no-repeat}
 .cell{position:relative;min-width:0;min-height:0;border:0;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent}
@@ -93,7 +99,6 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .die i.p{position:relative;overflow:hidden;border-radius:50%;width:74%;height:74%;margin:auto;background:rgba(255,255,255,.7)}
 .die i.p::after{content:"";position:absolute;inset:0;transform:translateY(19%);border-radius:50%;background:#fff}
 .msg{margin:12px 0;padding:10px 14px;border-radius:var(--br);background:var(--pill);color:var(--pilltx);font:14px/1.5 var(--mono)}
-.msg:empty{display:none}
 .msg strong{display:block}
 details{background:var(--panel);border-radius:var(--br);padding:10px 14px;font-size:13px}
 summary{cursor:pointer;font:600 14px/1.5 "League Spartan",Verdana,sans-serif;list-style:none;display:flex;align-items:center}
@@ -106,11 +111,11 @@ details[open]>summary::before{transform:translateY(-2px) rotate(45deg)}
 .guide li{display:flex;gap:10px;margin:8px 0}
 .dc{flex:none;font-size:22px;line-height:1.1;width:1.2em;text-align:center}
 footer a{color:inherit}
-dialog{border:0;border-radius:16px;padding:0;background:var(--panel);color:var(--ink);font:14px/1.5 var(--mono);width:min(92vw,360px)}
+dialog{border:0;border-radius:16px;padding:0;background:var(--panel);color:var(--ink);font:14px/1.5 var(--mono);width:min(92vw,360px);box-shadow:0 10px 32px rgba(0,0,0,.22),0 2px 8px rgba(0,0,0,.12)}
 dialog::backdrop{background:rgba(20,30,32,.55)}
 .mb{padding:22px;position:relative}
 dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
-.x{position:absolute;top:12px;right:14px;border:0;background:none;color:inherit;font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.x{position:absolute;top:14px;right:14px;border:0;background:none;color:inherit;font:inherit;font-size:22px;line-height:1;cursor:pointer}
 .opt{display:block;width:100%;font:inherit;padding:12px 14px;margin:0 0 10px;border-radius:10px;border:0;background:var(--card);color:var(--ink);cursor:pointer;text-align:left}
 .lvl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 18px;padding:0}
 .lvl select{font:inherit;font-weight:700;padding:6px 10px;border-radius:8px;border:0;background:var(--panel);color:var(--ink);cursor:pointer}
@@ -119,6 +124,9 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .tog{display:flex;margin-top:16px;border:1px solid currentColor;border-radius:999px;overflow:hidden}
 .tog button{flex:1;padding:8px 10px;border:0;background:none;color:inherit;font:inherit;font-size:13px}
 .tog .on{background:var(--ink);color:var(--panel)}
+.tic button{padding:6px 18px;display:flex;align-items:center;justify-content:center}
+.ti{width:26px;height:26px;fill:currentColor;display:block}
+[data-theme-set=light] .ti{transform:translateX(2px)}[data-theme-set=dark] .ti{transform:translateX(-2px)}
 .tog button:disabled{opacity:.55}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
 .row .tog{margin:0}
@@ -130,8 +138,12 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .sw[aria-checked=true] i{transform:translateX(20px);background:var(--panel)}
 .n0,.n1{font-weight:700}
 .n0{color:var(--teal)}.n1{color:var(--orange)}
-.noaids .pl small,.noaids details{display:none}
-.noaids .msg{display:none}.noaids .msg.keep{display:block}
+.no-dice .pl small,.no-rules details{display:none}
+.msg[hidden]{display:none}
+.msg .mv,.msg .tp{white-space:nowrap;overflow:hidden;display:block;line-height:21px}
+.msg .tp{opacity:.9}.msg .mv+.tp,.msg .mv+strong,.msg .tp+strong{margin-top:4px}
+.subs{margin:-4px 0 14px 16px}.subs[hidden]{display:none}.row.sub{margin-bottom:10px}
+.row.sub .sw{transform:scale(.85);transform-origin:right center}
 footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align:center}
 @media(prefers-reduced-motion:reduce){.over{animation:none}.cell.pick::after,.blink{animation:none}.die{transition:none}}
 </style>
@@ -182,9 +194,15 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <dialog id="set"><div class="mb">
 <button class="x" id="x2" aria-label="Close">×</button>
 <h2>Settings</h2>
-<div class="row"><span>Light / Dark mode</span><div class="tog" role="group" aria-label="Color mode"><button data-theme-set="light">Light</button><button data-theme-set="dark">Dark</button></div></div>
-<div class="row"><span id="aidlbl">Player aids</span><button class="sw" id="aids" role="switch" aria-checked="true" aria-labelledby="aidlbl"><i></i></button></div>
-<p class="ver">v0.7</p>
+<div class="row"><span>Appearance</span><div class="tog tic" role="group" aria-label="Appearance"><button data-theme-set="light" aria-label="Light" title="Light"><svg class="ti" viewBox="9.5 9.2 24.3 24.3" aria-hidden="true"><circle cx="21.62" cy="21.28" r="6.68"/><circle cx="21.62" cy="30.85" r="1.11"/><circle cx="26.41" cy="29.57" r="1.11"/><circle cx="29.91" cy="26.07" r="1.11"/><circle cx="31.19" cy="21.28" r="1.11"/><circle cx="29.91" cy="16.49" r="1.11"/><circle cx="26.41" cy="12.98" r="1.11"/><circle cx="21.62" cy="11.7" r="1.11"/><circle cx="16.83" cy="12.98" r="1.11"/><circle cx="13.32" cy="16.49" r="1.11"/><circle cx="12.04" cy="21.28" r="1.11"/><circle cx="13.32" cy="26.07" r="1.11"/><circle cx="16.83" cy="29.57" r="1.11"/></svg></button><button data-theme-set="dark" aria-label="Dark" title="Dark"><svg class="ti" viewBox="9.5 9.2 24.3 24.3" aria-hidden="true"><path d="M31.19,21.27c0,5.29-4.28,9.58-9.570,9.58-3.65,0-6.82-2.04-8.43-5.050,1.34.72,2.88,1.13,4.51,1.13,5.29,0,9.58-4.29,9.58-9.570,0-1.64-.41-3.17-1.13-4.520,3,1.62,5.04,4.79,5.04,8.43Z"/></svg></button></div></div>
+<div class="row"><span id="aidlbl">Player Aids</span><button class="sw" id="aids" role="switch" aria-checked="true" aria-labelledby="aidlbl"><i></i></button></div>
+<div class="subs" id="subs">
+<div class="row sub"><span id="a_dice">Dice Tracker</span><button class="sw" data-aid="dice" role="switch" aria-labelledby="a_dice"><i></i></button></div>
+<div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
+<div class="row sub"><span id="a_tips">Teaching Tips</span><button class="sw" data-aid="tips" role="switch" aria-labelledby="a_tips"><i></i></button></div>
+<div class="row sub"><span id="a_rules">Rule Sheet</span><button class="sw" data-aid="rules" role="switch" aria-labelledby="a_rules"><i></i></button></div>
+</div>
+<p class="ver">v0.714</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -257,10 +275,10 @@ const W_AGGR={mat:10.5,one:32,adv1:6.5,advO:2,ctr:1.2,six:65,c6:55,last:100,two:
 const PROFILES=[
  {name:'Friendly',legacy:true},
  {name:'Casual',depth:2,noise:8,slip:.08,w:W_BASE,smart:false},
- {name:'Standard',depth:3,noise:6,slip:.05,w:W_BASE,smart:true},
- {name:'Competitive',depth:4,time:900,w:W_BASE,smart:true},
- {name:'Aggressive',depth:8,time:1400,w:W_AGGR,smart:true},
- {name:'Galaxy Brain',depth:12,time:3200,w:W_BASE,smart:true,tt:true}
+ {name:'Normal',depth:3,noise:6,slip:.05,w:W_BASE,smart:true},
+ {name:'Competitive',depth:3,time:500,w:W_BASE,smart:true,v2:true},
+ {name:'Aggressive',depth:30,time:1400,w:W_AGGR,smart:true,v2:true},
+ {name:'Galaxy Brain',depth:30,time:4300,w:W_AGGR,smart:true,v2:true,ct:15}
 ];
 function toArr(ob){const a=new Int8Array(64);for(let i=0;i<64;i++){const d=ob[i];if(d)a[i]=d.o?-d.v:d.v}return a}
 function gen(b,p){const s=p?-1:1,out=[];
@@ -345,6 +363,7 @@ if(P.noise){
 const sc=rootScores(b,p,ms,P.depth).map(v=>v+(Math.random()*2-1)*P.noise);
 const idx=sc.map((v,i)=>i).sort((x,y)=>sc[y]-sc[x]);
 pick=ms[idx[(P.slip&&Math.random()<P.slip)?Math.floor(Math.random()*Math.min(3,idx.length)):0]]}
+else if(P.v2){pick=search2(b,p,P)}
 else{
 TT=P.tt?new Map():null;
 const T0=Date.now();DL=P.time?T0+P.time*(self_TS||1):0;
@@ -363,32 +382,114 @@ if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length){
 if(P.smart){let bs=-1e9;for(const q of f){const v=evalB(place(nb,p,q),p,P.w)+Math.random()*.1;if(v>bs){bs=v;r.place=q}}}
 else r.place=f[Math.floor(Math.random()*f.length)]}}
 return r}
+/* ---- stronger search (used by the top levels): incremental hashing, quiescence, killers/history, late-move reductions ---- */
+const S1=0x5bd1e995,S2=0x1b873593;let CT=0,PQ=-1,CH1=0,CH2=0,KIL=null,HIS=null,QN=0;
+const KEY=(h1,h2)=>(h1>>>0)*2097152+((h2>>>0)&2097151);
+function hparts(b,p){let h1=p?S1:0,h2=p?S2:0;for(let i=0;i<64;i++){const x=b[i];if(x){const q=i*13+x+6;h1^=ZK[0][q];h2^=ZK[1][q]}}CH1=h1;CH2=h2}
+function step2(b,p,m){const nb=make(b,p,m);PQ=-1;if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length){PQ=f[0];nb[PQ]=p?-1:1}}return nb}
+function chash(b,nb,f,t,h1,h2){h1^=S1;h2^=S2;const Z0=ZK[0],Z1=ZK[1];
+ for(let k=0;k<3;k++){const s=k===0?f:k===1?t:PQ;if(s<0||(k===2&&(s===f||s===t)))continue;const o=b[s],n=nb[s];if(o===n)continue;
+  if(o){const q=s*13+o+6;h1^=Z0[q];h2^=Z1[q]}if(n){const q=s*13+n+6;h1^=Z0[q];h2^=Z1[q]}}
+ CH1=h1;CH2=h2}
+function score2(b,p,m,first,ply){if(m===first)return 1e7;const s=p?-1:1,f=m&63,t=(m>>6)&63,k=m>>12,v=b[f]*s;
+ if(k===1)return 1e6+(-b[t]*s)*100-v;
+ if(k===2)return 5e5+v;
+ if(v===1&&(t>>3)===(p?7:0))return 9e5;
+ if(KIL[ply*2]===m)return 4e5;if(KIL[ply*2+1]===m)return 3.9e5;
+ return HIS[p*4096+(m&4095)]}
+function ord2(b,p,ms,first,ply){const n=ms.length,sc=new Float64Array(n);for(let i=0;i<n;i++)sc[i]=score2(b,p,ms[i],first,ply);
+ const ix=Array.from({length:n},(_,i)=>i).sort((x,y)=>sc[y]-sc[x]);return ix.map(i=>ms[i])}
+function qs(b,p,alpha,beta,ply,qd){
+ if((++NODES&1023)===0&&DL&&Date.now()>DL)throw ABORT;
+ const stand=evalB(b,ME,WT),max=p===ME;
+ if(max){if(stand>=beta)return stand;if(stand>alpha)alpha=stand}else{if(stand<=alpha)return stand;if(stand<beta)beta=stand}
+ if(qd<=0)return stand;
+ const s=p?-1:1,all=gen(b,p),ms=[];
+ for(const m of all){const k=m>>12;if(k)ms.push(m);else{const f=m&63,t=(m>>6)&63;if(b[f]*s===1&&(t>>3)===(p?7:0))ms.push(m)}}
+ if(!ms.length)return stand;
+ let best=stand;
+ for(const m of ord2(b,p,ms,0,ply)){const nb=step(b,p,m),o=term(nb,p);let v;
+  if(o>=0)v=o===2?0:(o===ME?WIN-ply:-WIN+ply);else v=qs(nb,1-p,alpha,beta,ply+1,qd-1);
+  if(max){if(v>best)best=v;if(best>alpha)alpha=best}else{if(v<best)best=v;if(best<beta)beta=best}
+  if(alpha>=beta)break}
+ return best}
+function ab2(b,p,d,alpha,beta,ply,c,h1,h2){
+ if(d<=0)return qs(b,p,alpha,beta,ply,6);
+ if((++NODES&1023)===0&&DL&&Date.now()>DL)throw ABORT;
+ const key=KEY(h1,h2);let first=0;
+ const e=TT.get(key);if(e){first=e.m;if(e.d>=d){if(e.f===0)return e.v;if(e.f===1){if(e.v>=beta)return e.v;if(e.v>alpha)alpha=e.v}else{if(e.v<=alpha)return e.v;if(e.v<beta)beta=e.v}}}
+ const ms=gen(b,p);if(!ms.length)return evalB(b,ME,WT);
+ const a0=alpha,b0=beta,max=p===ME,s=p?-1:1;let best=max?-1e9:1e9,bm=0,i=0;
+ for(const m of ord2(b,p,ms,first,ply)){
+  const nb=step2(b,p,m),f=m&63,t=(m>>6)&63,k=m>>12;
+  let o=term(nb,p),v;const nc=k?0:c+1;
+  if(o<0&&nc>=LIM)o=tie(nb);
+  let ck=0;
+  if(o<0){chash(b,nb,f,t,h1,h2);ck=KEY(CH1,CH2);
+   if(!k){let n=HZ.get(ck)||0;for(let j=0;j<PATH.length;j++)if(PATH[j]===ck)n++;if(n>=2)o=2}}
+  if(o>=0)v=o===2?-CT:(o===ME?WIN-ply:-WIN+ply);
+  else{const c1=CH1,c2=CH2;PATH.push(ck);
+   const quiet=!k&&!(b[f]*s===1&&(t>>3)===(p?7:0));
+   if(quiet&&i>=4&&d>=3){v=ab2(nb,1-p,d-2,alpha,beta,ply+1,nc,c1,c2);
+    if(max?v>alpha:v<beta)v=ab2(nb,1-p,d-1,alpha,beta,ply+1,nc,c1,c2)}
+   else v=ab2(nb,1-p,d-1,alpha,beta,ply+1,nc,c1,c2);
+   PATH.pop()}
+  if(max){if(v>best){best=v;bm=m}if(best>alpha)alpha=best}else{if(v<best){best=v;bm=m}if(best<beta)beta=best}
+  if(alpha>=beta){if(!k){if(KIL[ply*2]!==m){KIL[ply*2+1]=KIL[ply*2];KIL[ply*2]=m}HIS[p*4096+(m&4095)]+=d*d}break}
+  i++}
+ TT.set(key,{d,v:best,f:best<=a0?2:best>=b0?1:0,m:bm});
+ return best}
+function search2(b,p,P){CT=P.ct||0;TT=new Map();KIL=new Int32Array(256);HIS=new Float64Array(8192);
+ const T0=Date.now();DL=P.time?T0+P.time*(self_TS||1):0;
+ hparts(b,p);const R1=CH1,R2=CH2;
+ let rm=ord2(b,p,gen(b,p),0,0),bestM=rm[0];
+ try{for(let d=1;d<=P.depth;d++){let alpha=-1e9,curBest=rm[0],curV=-1e9;const scs=[];
+  for(const m of rm){const nb=step2(b,p,m),f=m&63,t=(m>>6)&63,k=m>>12;let o=term(nb,p),v;const nc=k?0:CLK0+1;
+   if(o<0&&nc>=LIM)o=tie(nb);let ck=0;
+   if(o<0){chash(b,nb,f,t,R1,R2);ck=KEY(CH1,CH2);if(!k&&(HZ.get(ck)||0)>=2)o=2}
+   if(o>=0)v=o===2?-CT:(o===ME?WIN:-WIN);
+   else{const c1=CH1,c2=CH2;PATH.length=0;PATH.push(ck);v=ab2(nb,1-p,d-1,alpha,1e9,1,nc,c1,c2);PATH.length=0}
+   scs.push([m,v]);if(v>curV){curV=v;curBest=m;if(v>alpha)alpha=v}}
+  bestM=curBest;LASTDEPTH=d;scs.sort((x,y)=>y[1]-x[1]);rm=scs.map(x=>x[0]);
+  if(Math.abs(curV)>=WIN-50)break}}catch(e){if(e!==ABORT)throw e}
+ DL=0;TT=null;return bestM}
 let self_TS=1,LASTDEPTH=0;
 </script>
 <script>
 /* ---- game flow ---- */
 /* save & resume: the whole game is stored on the device after every change */
-const SAVE='sen-save-v1',BLINK='<strong class="blink">Add a 1 to a free space in your base.</strong>';
-function save(){if(!G)return;try{localStorage.setItem(SAVE,JSON.stringify({v:1,b:G.b,turn:G.turn,mode:G.mode,level:G.level,rule:G.rule,clock:G.clock,hz:[...G.hz],last:G.last,text:G.text,over:G.over,pending:G.pending,n:NSTART}))}catch(e){}}
+const SAVE='sen-save-v1',BLINK='<strong class="blink tp">Return a One to your starting area.</strong>',WORD=['','One','Two','Three','Four','Five','Six'];
+function save(){if(!G)return;try{localStorage.setItem(SAVE,JSON.stringify({v:1,b:G.b,turn:G.turn,mode:G.mode,level:G.level,rule:G.rule,clock:G.clock,hz:[...G.hz],last:G.last,note:G.note,tip:G.tip,over:G.over,pending:G.pending,n:NSTART}))}catch(e){}}
 function restore(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');
  if(!s||s.v!==1||!Array.isArray(s.b)||s.b.length!==64||!s.b.every(d=>d===null||(d&&(d.o===0||d.o===1)&&d.v>=1&&d.v<=6))||(s.turn!==0&&s.turn!==1)||!PROFILES[s.level])return false;
- G={b:s.b,rule:s.rule==='adv'?'adv':'std',turn:s.turn,sel:null,pending:Array.isArray(s.pending)?s.pending:null,over:!!s.over,last:s.last||null,busy:false,mode:s.mode===2?2:1,level:s.level,text:s.text||'',clock:s.clock|0,hz:new Map(s.hz||[])};
- NSTART=s.n||count(G.b,0);zinit();guide();say(G.text);
- if(G.pending)$('#msg').innerHTML=nm(G.text)+BLINK;
+ G={b:s.b,rule:s.rule==='adv'?'adv':'std',turn:s.turn,sel:null,pending:Array.isArray(s.pending)?s.pending:null,over:!!s.over,last:s.last||null,busy:false,mode:s.mode===2?2:1,level:s.level,note:typeof s.note==='string'?s.note:'',tip:typeof s.tip==='string'?s.tip:(s.text||''),clock:s.clock|0,hz:new Map(s.hz||[])};
+ NSTART=s.n||count(G.b,0);zinit();guide();
  if(G.over)$('#new').classList.add('shine');
  render();maybeAI();return true}catch(e){return false}}
-let G,MODE=1,T,THEME="dark",AIDS=true,LEVEL=2,RULE='std';
-function newGame(){$('#new').classList.remove('shine');clearTimeout(T);AIID++;clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,text:'',clock:0,hz:new Map()};
-NSTART=count(G.b,0);zinit();seen();guide();say(`${G.rule==='adv'?'Advanced setup. ':''}Coin flip: <b>${NAME[G.turn]}</b> moves first.`);render();maybeAI()}
+let G,MODE=1,T,THEME="dark",AID={dice:true,moves:true,tips:true,rules:true},LEVEL=2,RULE='std';
+function newGame(){if(typeof stopThinking==='function')stopThinking();LONES=[-1,-1];$('#new').classList.remove('shine');clearTimeout(T);AIID++;clearTimeout(OV);$('#over').hidden=true;LS=null;G={b:init(RULE==='adv'?rollSetup():null),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,note:'',tip:'',clock:0,hz:new Map()};
+NSTART=count(G.b,0);zinit();seen();guide();G.note=`${G.rule==='adv'?'Advanced setup. ':''}${NAME[G.turn]} moves first.`;G.tip='The first player is selected at random.';render();maybeAI()}
 const isAI=()=>G.mode===1&&G.turn===1;
 function guide(){$('#gsum').textContent=G.rule==='adv'?'Advanced Rules':'Standard Rules';$('#gin').hidden=G.rule!=='adv'}
 function seen(){const k=hkey(toArr(G.b),G.turn),n=(G.hz.get(k)||0)+1;G.hz.set(k,n);return n}
 const sw=o=>`<span class="pd" style="background:var(--${o?'orange':'teal'})"></span>`;
-function endBy(text,panel,note){G.over=true;G.pending=null;say(AIDS?`${G.text} <strong>${text}</strong>`:`<strong>${text}</strong>`);render();showOver(panel,undefined,note)}
+/* result codes for the Move Tracker: winner initial (color-coded) + #- Lesser, #! Perfect, #r resignation, #36 tiebreak; draws =, =3 repetition, =36 tied count */
+const code=(o,s)=>` // <span class="n${o}">${o?'O':'T'}</span>${s}`;
+function endBy(c,tip,panel,note){G.over=true;G.pending=null;G.note+=c;G.tip=tip;render();showOver(panel,undefined,note)}
 const nm=t=>t.replace(/\b(Orange|Teal)\b/g,(w)=>`<span class="n${w=='Teal'?0:1}">${w}</span>`);
-function say(t){G.text=t;const m=$('#msg');m.innerHTML=nm(t);m.className='msg'+(G.over?' keep':'')}
+/* the panel below the board: one line of notation (Move Tracker) + plain-English Teaching Tips */
+function selTip(){if(G.over||G.sel===null||G.pending)return '';const d=G.b[G.sel];if(!d)return '';const v=d.v,W=v===6?'Sixes':WORD[v]+'s';
+ const ms=moves(G.b,G.turn).filter(m=>m.f===G.sel);
+ if(ms.some(m=>selfEnding(m)))return `${NAME[G.turn]} is low on Ones.`;
+ return v===1?'Ones move 1 square, any direction.':v===5?'Fives move diagonally, through dice.':v%2?`${W} move diagonally, up to ${v}.`:`${W} move straight, up to ${v}.`}
+function paint(){const m=$('#msg');let h='';
+ if(AID.moves&&G.note)h+=`<div class="mv">${nm(G.note)}</div>`;
+ if(AID.tips){if(G.pending&&!isAI()&&!G.over)h+=BLINK;else{const t=selTip()||G.tip;h+=t?`<div class="tp">${nm(t)}</div>`:'<div class="tp" aria-hidden="true">&nbsp;</div>'}}
+ m.innerHTML=h;m.hidden=!h;
+ m.querySelectorAll('.mv,.tp').forEach(x=>{let s=14;while(x.scrollWidth>x.clientWidth+1&&s>9){s-=.5;x.style.fontSize=s+'px'}})}
+addEventListener('resize',()=>{if(G)paint()});
 function click(i){if(G.over||G.busy||isAI())return;
-if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];say(`${G.text}, +1 to ${sq(i)}`);finish()}return}
+if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];G.note+=`, +1 to ${sq(i)}`;finish()}return}
 const d=G.b[i];
 if(G.sel!==null){const m=moves(G.b,G.turn).find(m=>m.f===G.sel&&m.t===i);if(m)return doMove(m)}
 G.sel=(d&&d.o===G.turn&&G.sel!==i)?i:null;render()}
@@ -396,45 +497,58 @@ function doMove(m){const d=G.b[m.f],t=G.b[m.t],who=NAME[G.turn];
 const a=apply(G.b,m),nd=a.b[m.t];
 const sep=m.k=='c'?'x':m.k=='j'?'+':'';
 let s=`${who} ${d.v} ${sq(m.f)}${sep}${sq(m.t)}`+(nd.v!==d.v||a.rem?` → ${nd.v}`:'');
-G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};say(s);
+let tip='';
+const eq=m.k==='j'||(t&&t.v===d.v);
+if(a.rem)tip=outOf(a.b,G.turn)>0?'Over 6: Return a One to starting area.':'Cannot return a One (no lost dice).';
+else if(m.k==='c')tip=eq?`Equal capture: ${d.v} + ${t.v} = ${d.v+t.v}.`:`Capture: ${d.v} − ${t.v} = ${d.v-t.v}.`;
+else if(m.k==='j')tip=`Combine: ${d.v} + ${t.v} = ${d.v+t.v}.`;
+{const pre=m.k==='m'?d.v:m.k==='j'||t.v===d.v?d.v+t.v:d.v-t.v;if(pre===1&&nd.v===6)tip='Back Line: The One becomes a Six.'}
+G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};G.note=s;G.tip=tip.trim();
 if(a.rem&&outOf(G.b,G.turn)>0){const f=freeBase(G.b,G.turn);
  if(f.length){
-  if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};G.spawn={i,delay:.22};say(`${s}, +1 to ${sq(i)}`)}
-  else{G.pending=f;$('#msg').innerHTML=nm(s)+BLINK;render();return}
+  if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};G.spawn={i,delay:.22};G.note+=`, +1 to ${sq(i)}`}
+  else{G.pending=f;render();return}
  }}
 finish()}
 function finish(){const o=outcome(G.b,G.turn);G.sel=null;
 if(o!==null){G.over=true;G.pending=null;
  const perf=o!=='draw'&&G.b.filter((d,i)=>d&&d.o===o&&d.v==6&&(i>>3)>=3&&(i>>3)<=4&&(i&7)>=3&&(i&7)<=4).length>=2;
- const w=o==='draw'?'The game is a draw.':`${NAME[o]} wins by ${perf?'Perfect':'Lesser'} Victory${perf?'':` (${NAME[1-o]} has no Ones left)`}!`;
- say(AIDS?`${G.text}<strong>${w}</strong>`:`<strong>${w}</strong>`);render();
+ G.note+=o==='draw'?' // =':code(o,perf?'#!':'#-');
+ G.tip=o==='draw'?'Draw: Both players lost their last One.':perf?'Perfect Victory: Two Sixes in the center.':`Lesser Victory: ${NAME[1-o]} has no Ones.`;
+ render();
  showOver(o==='draw'?'The game is a draw':`<span class="pd" style="background:var(--${o?'orange':'teal'})"></span>${NAME[o]} wins by ${perf?'Perfect':'Lesser'} Victory`);return}
 if(G.clock>=LIM){const w=tie(toArr(G.b)),n36='36 consecutive moves occurred without a capture or combination.';
- if(w===2)return endBy(`${n36} Both players have the same number of Ones. The game is a Draw.`,'Both players have the same number of Ones. The game is a Draw.',n36);
- return endBy(`${n36} ${NAME[w]} has more Ones on the board, and wins the tiebreak.`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,n36)}
+ if(w===2)return endBy(' // =36','36-move rule: Equal Ones, Draw.','Both players have the same number of Ones. The game is a Draw.',n36);
+ return endBy(code(w,'#36'),`36-move rule: ${NAME[w]} has more Ones.`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,n36)}
 G.turn=1-G.turn;
 if(!moves(G.b,G.turn).length){const prev=NAME[G.turn];G.turn=1-G.turn;
- if(!moves(G.b,G.turn).length){G.over=true;say('No one can move. The game is a draw.');render();showOver('No one can move. The game is a draw');return}
- say(`${G.text} <strong>${prev} has no moves and passes.</strong>`)}
-if(seen()>=3)return endBy('The same board position has occurred 3 times. The game is a Draw.','The game is a Draw.','The same board position has occurred 3 times.');
+ if(!moves(G.b,G.turn).length)return endBy(' // =','Draw: No one can move.','No one can move. The game is a Draw.');
+ G.note+=` · <span class="n${1-G.turn}">${prev[0]}</span> passes`;G.tip=`${prev} has no moves and passes.`}
+if(seen()>=3)return endBy(' // =3','Draw: Same position 3 times.','The game is a Draw.','The same board position has occurred 3 times.');
 render();maybeAI()}
 /* the computer thinks in a background worker so the page never freezes; falls back to the main thread if workers are unavailable */
 let WORKER=null,AIID=0,AIT0=0;
 function aiDone(id,m){if(id!==AIID||!G||G.over||!isAI())return;T=setTimeout(()=>{if(id!==AIID||G.over)return;G.busy=false;doMove(m)},Math.max(0,650-(Date.now()-AIT0)))}
 function aiLocal(id){T=setTimeout(()=>{if(id!==AIID||G.over)return;CLK0=G.clock;HZ=G.hz;const m=aiChoose(G.level,G.b,1);G.busy=false;doMove(m)},Math.max(0,650-(Date.now()-AIT0)))}
-try{WORKER=new Worker(URL.createObjectURL(new Blob([$('#core').textContent,
- '\nonmessage=e=>{const d=e.data;NSTART=d.n;CLK0=d.clk;HZ=new Map(d.hz);postMessage({id:d.id,m:aiChoose(d.L,d.b,d.p)})}'],{type:'text/javascript'})));
- WORKER.onmessage=e=>aiDone(e.data.id,e.data.m);
- WORKER.onerror=e=>{e.preventDefault&&e.preventDefault();WORKER=null;if(G&&G.busy&&isAI()&&!G.over)aiLocal(AIID)}}catch(e){WORKER=null}
+let WBUSY=false;const WURL=(()=>{try{return URL.createObjectURL(new Blob([$('#core').textContent,
+ '\nonmessage=e=>{const d=e.data;NSTART=d.n;CLK0=d.clk;HZ=new Map(d.hz);postMessage({id:d.id,m:aiChoose(d.L,d.b,d.p)})}'],{type:'text/javascript'}))}catch(e){return null}})();
+function mkWorker(){try{const w=new Worker(WURL);w.onmessage=e=>{WBUSY=false;aiDone(e.data.id,e.data.m)};
+ w.onerror=e=>{e.preventDefault&&e.preventDefault();WORKER=null;WBUSY=false;if(G&&G.busy&&isAI()&&!G.over)aiLocal(AIID)};return w}catch(e){return null}}
+WORKER=WURL?mkWorker():null;
+/* if the computer is still thinking about an abandoned game, stop it so the next move isn't delayed */
+function stopThinking(){if(WORKER&&WBUSY){WORKER.terminate();WBUSY=false;WORKER=mkWorker()}}
 function maybeAI(){if(G.over||!isAI())return;G.busy=true;const id=++AIID;AIT0=Date.now();
-if(WORKER){try{WORKER.postMessage({id,L:G.level,b:G.b,p:1,n:NSTART,clk:G.clock,hz:[...G.hz]});return}catch(e){WORKER=null}}
+if(WORKER){try{WBUSY=true;WORKER.postMessage({id,L:G.level,b:G.b,p:1,n:NSTART,clk:G.clock,hz:[...G.hz]});return}catch(e){WORKER=null}}
 aiLocal(id)}
 
 const mk=d=>{const dd=document.createElement('div');dd.className='die o'+d.o;for(let k=0;k<9;k++){const s=document.createElement('i');if(PIPS[d.v].includes(k))s.className='p';dd.appendChild(s)}return dd};
-let LS=null,OV=null;
+let LS=null,OV=null,LONES=[-1,-1];
+/* "[X] Ones" turns red at one One (fading in when it first happens) and pulses red once a player has none left */
+function onesCls(p){const n=G.b.filter(d=>d&&d.o===p&&d.v==1).length,prev=LONES[p];LONES[p]=n;
+return n===1?' warn'+(prev!==1?' fadein':''):n===0?' zero':''}
 function showOver(html,delay,note){clearTimeout(OV);OV=setTimeout(()=>{if(!G.over)return;$('#ovt').innerHTML=html;const p=$('#ovp');p.textContent=note||'';p.hidden=!note;$('#over').hidden=false},delay===undefined?750:delay)}
-function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);AIID++;G.busy=false;G.over=true;G.pending=null;G.sel=null;
-const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;say(txt);render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
+function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);AIID++;stopThinking();G.busy=false;G.over=true;G.pending=null;G.sel=null;
+const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;G.note=`${NAME[0]} resigns`+code(1,'#r');G.tip=`${NAME[0]} resigns. ${NAME[1]} wins.`;render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
 /* a move (incl. a last One promoting on the back row) or Capture/Combine that would end the game without a win for the mover (e.g. spending your last One) */
 function selfEnding(m){const a=apply(G.b,m);let b=a.b;
 if(a.rem&&outOf(b,G.turn)>0){const f=freeBase(b,G.turn);if(f.length)b[f[0]]={o:G.turn,v:1}}
@@ -460,8 +574,8 @@ if(an&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const cells=bd.c
 $('#resign').hidden=G.mode!==1;$('#resign').disabled=!!G.over;
 [0,1].forEach(p=>{const n=G.mode===1?(p?PROFILES[G.level].name:'You'):NAME[p];
 $('#s'+p).className='pl'+(!G.over&&G.turn===p?' on':'');
-$('#s'+p).innerHTML=`<b style="background:var(--${p?'orange':'teal'})"></b><span class="nm">${n}</span><small><span class="st">${G.b.filter(d=>d&&d.o===p&&d.v==1).length} Ones</span><span class="sep"> | </span><span class="st">${outOf(G.b,p)} dice out</span></small>`});
-save();
+$('#s'+p).innerHTML=`<b style="background:var(--${p?'orange':'teal'})"></b><span class="nm">${n}</span><small><span class="st${onesCls(p)}">${(n1=>n1+(n1===1?' One':' Ones'))(G.b.filter(d=>d&&d.o===p&&d.v==1).length)}</span><span class="sep"> | </span><span class="st">${outOf(G.b,p)} dice out</span></small>`});
+save();paint();
 if(later.length){void bd.offsetWidth;requestAnimationFrame(()=>requestAnimationFrame(()=>later.forEach(f=>f())))}}
 
 const dlg=$('#dlg'),lvl=$('#lvl');
@@ -479,17 +593,19 @@ $('#x').onclick=()=>dlg.close();
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 dlg.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{MODE=+b.dataset.mode;dlg.close();newGame()});
 const set=$('#set');
-function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';document.body.classList.toggle('noaids',!AIDS);
+function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';['dice','moves','tips','rules'].forEach(k=>document.body.classList.toggle('no-'+k,!AID[k]));
 document.querySelectorAll('[data-theme-set]').forEach(b=>{const on=b.dataset.themeSet===THEME;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
-$('#aids').setAttribute('aria-checked',AIDS);
+const anyAid=Object.values(AID).some(Boolean);$('#aids').setAttribute('aria-checked',anyAid);$('#subs').hidden=!anyAid;
+document.querySelectorAll('[data-aid]').forEach(b=>b.setAttribute('aria-checked',!!AID[b.dataset.aid]));if(G)paint();
 document.querySelectorAll('[data-rule]').forEach(b=>{const on=b.dataset.rule===RULE;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
-try{localStorage.setItem('sen-prefs',JSON.stringify({THEME,AIDS,LEVEL,RULE}))}catch(e){}}
-try{const p=JSON.parse(localStorage.getItem('sen-prefs')||'{}');if(p.THEME)THEME=p.THEME;if(typeof p.AIDS==='boolean')AIDS=p.AIDS;if(p.RULE==='adv'||p.RULE==='std')RULE=p.RULE;if(Number.isInteger(p.LEVEL)&&p.LEVEL>=0&&p.LEVEL<PROFILES.length)LEVEL=p.LEVEL}catch(e){}
+try{localStorage.setItem('sen-prefs',JSON.stringify({THEME,AID,LEVEL,RULE}))}catch(e){}}
+try{const p=JSON.parse(localStorage.getItem('sen-prefs')||'{}');if(p.THEME)THEME=p.THEME;if(typeof p.AIDS==='boolean')for(const k in AID)AID[k]=p.AIDS;if(p.AID&&typeof p.AID==='object')for(const k in AID)if(typeof p.AID[k]==='boolean')AID[k]=p.AID[k];if(p.RULE==='adv'||p.RULE==='std')RULE=p.RULE;if(Number.isInteger(p.LEVEL)&&p.LEVEL>=0&&p.LEVEL<PROFILES.length)LEVEL=p.LEVEL}catch(e){}
 $('#gear').onclick=()=>set.showModal();
 $('#x2').onclick=()=>set.close();
 set.addEventListener('click',e=>{if(e.target===set)set.close()});
 document.querySelectorAll('[data-theme-set]').forEach(b=>b.onclick=()=>{THEME=b.dataset.themeSet;prefs()});
-$('#aids').onclick=()=>{AIDS=!AIDS;prefs()};
+$('#aids').onclick=()=>{const on=!Object.values(AID).some(Boolean);for(const k in AID)AID[k]=on;prefs()};
+document.querySelectorAll('[data-aid]').forEach(b=>b.onclick=()=>{AID[b.dataset.aid]=!AID[b.dataset.aid];prefs()});
 document.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{RULE=b.dataset.rule;prefs()});
 lvl.value=LEVEL;prefs();
 if(!restore())newGame();
