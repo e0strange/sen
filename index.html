@@ -201,7 +201,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
 <div class="row sub"><span id="a_rules">Rule Sheet</span><button class="sw" data-aid="rules" role="switch" aria-labelledby="a_rules"><i></i></button></div>
 </div>
-<p class="ver">v0.724</p>
+<p class="ver">v0.725</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -489,7 +489,7 @@ function center(force){const w=innerWidth,hh=innerHeight;if(!force&&w===CW&&Math
  const mid=$('.mid'),hdr=$('.hdr'),ft=$('footer'),main=$('main');
  const top=hdr.offsetTop+hdr.offsetHeight,pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
  const avail=hh-top-ft.offsetHeight-pb-28,core=$('.players').offsetHeight+10+$('.wrap').offsetHeight;
- mid.style.paddingTop=Math.max(40,Math.round((avail-core)/2))+'px'}
+ mid.style.paddingTop=Math.max(40,Math.round((avail-core)/2)-30)+'px'}
 addEventListener('resize',()=>center());if(document.fonts)document.fonts.ready.then(()=>center(true));
 function click(i){if(G.over||G.busy||isAI())return;
 if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];G.note+=`, +1 to ${sq(i)}`;finish()}return}
