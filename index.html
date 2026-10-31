@@ -164,7 +164,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="msg" id="msg" aria-live="polite"></div>
 <details>
 <summary id="gsum">Standard Rules</summary>
-<p class="gin" id="gin" hidden>In Advanced sen, starting configurations are randomized. Within each base, random rolls that add up to 10 are reflected across the board. Configurations will always feature at least 1 One. Besides this, Standard rules apply:</p>
+<p class="gin" id="gin" hidden>In Advanced sen, starting configurations are randomized. One half of your base is filled with random rolls (that always feature at least 1 One) until the sum of the dice is 10. This is then reflected onto the other side of the base. Besides this, Standard rules apply:</p>
 <ul class="guide">
 <li><span class="dc" aria-hidden="true">⚀</span><span><b>Win:</b> There are two ways to win in sen. Perfect Victory is when you’re the first to place two Sixes in the 4 central squares (marked by corner brackets). Lesser Victory is when you leave your opponent with no Ones. (If both players lose their last One at once, it’s a Draw.)</span></li>
 <li><span class="dc" aria-hidden="true">⚁</span><span><b>Move:</b> A die can move from 1 to its face value in squares on the board. Even numbers move up/down/left/right, odd numbers move diagonally. Ones can move any direction. Dice can’t jump over others (except Fives, which can pass through any dice).</span></li>
@@ -173,7 +173,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <li><span class="dc" aria-hidden="true">⚄</span><span><b>Over 6:</b> Whenever the result of your Capture/Combination would exceed 6, the die in question becomes a Six, and you return one of your lost dice as a One to any free square in your base.</span></li>
 <li><span class="dc" aria-hidden="true">⚅</span><span><b>Back Line:</b> A One that reaches the opponent’s back row becomes a Six. (This also applies if a capture results in a One on an opponent’s back row.)</span></li>
 </ul>
-<p class="gend"><b>Rare Outcomes:</b> If a board state is repeated 3 times, the game ends in a draw. If 36 consecutive moves occur without a Capture or Combination, the player with the most Ones wins.</p>
+<p class="gend"><b>Rare Outcomes:</b> If a board state repeats 3x, the game ends in a draw. If 36 consecutive moves occur without a Capture or a Combination, the player with the most Ones wins.</p>
 </details>
 </div>
 <footer>sen designed by <a href="https://ericstrange.com" target="_blank" rel="noopener">Eric Chang</a> | Licensed <span style="white-space:nowrap">CC BY-NC-SA 4.0</span>, 2013</footer>
@@ -201,7 +201,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
 <div class="row sub"><span id="a_rules">Rule Sheet</span><button class="sw" data-aid="rules" role="switch" aria-labelledby="a_rules"><i></i></button></div>
 </div>
-<p class="ver">v0.723</p>
+<p class="ver">v0.724</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -484,6 +484,13 @@ function paint(){const m=$('#msg');let h='';
  /* two lines at most: shrink the text slightly if it would need a third */
  m.querySelectorAll('.mv').forEach(x=>{let s=14;while(x.scrollHeight>44&&s>9){s-=.5;x.style.fontSize=s+'px';x.style.lineHeight=Math.round(s*1.5)+'px'}})}
 addEventListener('resize',()=>{if(G)paint()});
+let CW=0,CH=0;
+function center(force){const w=innerWidth,hh=innerHeight;if(!force&&w===CW&&Math.abs(hh-CH)<120)return;CW=w;CH=hh;
+ const mid=$('.mid'),hdr=$('.hdr'),ft=$('footer'),main=$('main');
+ const top=hdr.offsetTop+hdr.offsetHeight,pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
+ const avail=hh-top-ft.offsetHeight-pb-28,core=$('.players').offsetHeight+10+$('.wrap').offsetHeight;
+ mid.style.paddingTop=Math.max(40,Math.round((avail-core)/2))+'px'}
+addEventListener('resize',()=>center());if(document.fonts)document.fonts.ready.then(()=>center(true));
 function click(i){if(G.over||G.busy||isAI())return;
 if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];G.note+=`, +1 to ${sq(i)}`;finish()}return}
 const d=G.b[i];
@@ -586,7 +593,7 @@ const set=$('#set');
 function prefs(){document.documentElement.dataset.theme=THEME;const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=THEME==='light'?'#b3cbcb':'#1b2124';['dice','moves','rules'].forEach(k=>document.body.classList.toggle('no-'+k,!AID[k]));
 document.querySelectorAll('[data-theme-set]').forEach(b=>{const on=b.dataset.themeSet===THEME;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
 const anyAid=Object.values(AID).some(Boolean);$('#aids').setAttribute('aria-checked',anyAid);$('#subs').hidden=!anyAid;
-document.querySelectorAll('[data-aid]').forEach(b=>b.setAttribute('aria-checked',!!AID[b.dataset.aid]));if(G)paint();
+document.querySelectorAll('[data-aid]').forEach(b=>b.setAttribute('aria-checked',!!AID[b.dataset.aid]));if(G)paint();if(typeof center==='function')center(true);
 document.querySelectorAll('[data-rule]').forEach(b=>{const on=b.dataset.rule===RULE;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
 try{localStorage.setItem('sen-prefs',JSON.stringify({THEME,AID,LEVEL,RULE}))}catch(e){}}
 try{const p=JSON.parse(localStorage.getItem('sen-prefs')||'{}');if(p.THEME)THEME=p.THEME;if(typeof p.AIDS==='boolean')for(const k in AID)AID[k]=p.AIDS;if(p.AID&&typeof p.AID==='object')for(const k in AID)if(typeof p.AID[k]==='boolean')AID[k]=p.AID[k];if(p.RULE==='adv'||p.RULE==='std')RULE=p.RULE;if(Number.isInteger(p.LEVEL)&&p.LEVEL>=0&&p.LEVEL<PROFILES.length)LEVEL=p.LEVEL}catch(e){}
@@ -597,8 +604,8 @@ document.querySelectorAll('[data-theme-set]').forEach(b=>b.onclick=()=>{THEME=b.
 $('#aids').onclick=()=>{const on=!Object.values(AID).some(Boolean);for(const k in AID)AID[k]=on;prefs()};
 document.querySelectorAll('[data-aid]').forEach(b=>b.onclick=()=>{AID[b.dataset.aid]=!AID[b.dataset.aid];prefs()});
 document.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{RULE=b.dataset.rule;prefs()});
-lvl.value=LEVEL;prefs();
-if(!restore())newGame();
+lvl.value=LEVEL;prefs();center(true);
+if(!restore())newGame();center(true);
 /* installable app: work offline after the first visit */
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{})});
 </script>
