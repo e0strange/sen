@@ -25,8 +25,8 @@ html{scrollbar-gutter:stable both-edges;-webkit-text-size-adjust:100%;text-size-
 body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 .guide,.gin,.gend,footer{-webkit-user-select:text;user-select:text}
 #board{-webkit-touch-callout:none}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))}
-main{width:min(100%,600px);margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:max(28px,env(safe-area-inset-top)) 0 max(28px,env(safe-area-inset-bottom))}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);padding:0 calc(12px + env(safe-area-inset-right,0px)) 0 calc(12px + env(safe-area-inset-left,0px))}
+main{width:min(100%,600px);margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:calc(28px + env(safe-area-inset-top,0px)) 0 calc(28px + env(safe-area-inset-bottom,0px))}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 0}
 h1{font:600 2.2rem/1 "League Spartan",Verdana,sans-serif;margin:0 0 0 12px;letter-spacing:-.02em}
 .hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:12px;font:13px/1.5 var(--mono)}
