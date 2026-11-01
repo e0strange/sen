@@ -1,6 +1,6 @@
 /* sen service worker: keeps the game on the device so it opens offline.
    When you upload a new version, change VERSION so phones fetch fresh copies. */
-const VERSION = 'sen-v0.725';
+const VERSION = 'sen-v0.735';
 const FILES = [
   './',
   './index.html',
