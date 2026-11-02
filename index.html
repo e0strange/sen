@@ -92,6 +92,9 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 @keyframes pk{from{opacity:1}to{opacity:.2}}
 .vic{color:var(--vic)}
 .blink{color:var(--note);animation:bl 1.1s ease-in-out infinite}
+.bad{color:inherit;background:#e55353;padding:1px 4px;margin:0 -1px 0 -4px;border-radius:3px;animation:bl 1.1s ease-in-out infinite}
+.die.nope{animation:nope .45s ease-in-out}
+@keyframes nope{0%,100%{transform:translateX(0)}15%{transform:translateX(-5px) rotate(-4deg)}35%{transform:translateX(5px) rotate(4deg)}55%{transform:translateX(-4px) rotate(-3deg)}75%{transform:translateX(3px) rotate(2deg)}}
 @keyframes bl{50%{opacity:.15}}
 .cell:focus-visible{outline:3px solid var(--hi);outline-offset:-3px}
 .die{position:absolute;inset:13%;border-radius:14%;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:10.36%;background:var(--c);box-shadow:0 0 0 var(--rw,0px) var(--rc,transparent),0 3px 6px rgba(0,0,0,.22);pointer-events:none;transition:transform .18s ease-out,box-shadow .18s ease-out}
@@ -149,7 +152,7 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 .subs{margin:-4px 0 14px 16px}.subs[hidden]{display:none}.row.sub{margin-bottom:10px}
 .row.sub .sw{transform:scale(.85);transform-origin:right center}
 footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-align:center}
-@media(prefers-reduced-motion:reduce){.over{animation:none}.cell.pick::after,.blink{animation:none}.die{transition:none}}
+@media(prefers-reduced-motion:reduce){.over{animation:none}.cell.pick::after,.blink,.bad,.die.nope{animation:none}.die{transition:none}}
 </style>
 </head>
 <body>
@@ -171,7 +174,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <summary id="gsum">Standard Rules</summary>
 <p class="gin" id="gin" hidden>In Intergalactic sen, starting configurations are randomized. One half of your base is filled with random rolls that add up to 10, and always feature at least 1 One. This is then reflected onto the other side of the base. Certain configurations from unstable dimensions may trigger an alert – these will be quick matches, where the chance of loss is high. Besides this, Standard rules apply:</p>
 <ul class="guide">
-<li><span class="dc" aria-hidden="true">⚀</span><span><b>Win:</b> There are two ways to win in sen. A player wins by <b class="vic">Perfect Victory</b> when they’re first to place two Sixes in any of the 4 central squares (marked by corner brackets). A player wins by <b class="vic">Lesser Victory</b> when their opponent has no Ones left on the board. (If both players lose their last One at once, it’s a Draw.)</span></li>
+<li><span class="dc" aria-hidden="true">⚀</span><span><b>Win:</b> There are two ways to win in sen. A player wins by <b class="vic">Perfect Victory</b> when they’re first to place two Sixes in any of the 4 central squares (marked by corner brackets). A player wins by <b class="vic">Lesser Victory</b> when their opponent has no Ones left on the board.</span></li>
 <li><span class="dc" aria-hidden="true">⚁</span><span><b>Move:</b> A die can move from 1 to its face value in squares on the board. Even numbers move up/down/left/right, odd numbers move diagonally. Ones can move any direction. Dice can’t jump over others (except Fives, which can pass through any dice).</span></li>
 <li><span class="dc" aria-hidden="true">⚂</span><span><b>Capture:</b> A smaller die can never capture a die of greater value. If your die lands on an opponent’s die that’s of lower value, its value is subtracted from your die. If your opponent’s die is of equal value, its value is added.</span></li>
 <li><span class="dc" aria-hidden="true">⚃</span><span><b>Combine:</b> Move onto your own die of equal value to merge them into one. Their values add up!</span></li>
@@ -210,7 +213,7 @@ footer,.ver{font-size:clamp(9px,calc((100vw - 28px) / 37),12px);opacity:.7;text-
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
 <div class="row sub"><span id="a_rules">Rule Sheet</span><button class="sw" data-aid="rules" role="switch" aria-labelledby="a_rules"><i></i></button></div>
 </div>
-<p class="ver">v0.75</p>
+<p class="ver">v0.803</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -233,7 +236,7 @@ let NSTART=12;
 const outOf=(b,p)=>NSTART-count(b,p);
 const freeBase=(b,p)=>baseSq(p).filter(i=>!b[i]);
 
-function moves(b,p){const out=[];
+function allMoves(b,p){const out=[];
 for(let i=0;i<64;i++){const d=b[i];if(!d||d.o!==p)continue;const r=i>>3,c=i&7,v=d.v;
 const D=v==1?[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]:v%2?[[1,1],[1,-1],[-1,1],[-1,-1]]:[[1,0],[-1,0],[0,1],[0,-1]];
 for(const[dr,dc]of D)for(let k=1;k<=v;k++){const nr=r+dr*k,nc=c+dc*k;if(nr<0||nr>7||nc<0||nc>7)break;
@@ -243,6 +246,9 @@ if(t.o!==p){if(t.v<=v)out.push({f:i,t:j,k:'c'})}else if(t.v===v)out.push({f:i,t:
 if(v!==5)break}}
 return out}
 
+/* last-One rule: a move that would leave its player with no Ones (their only One capturing or reaching the far back row, or combining their only two Ones) is not allowed */
+function lastOne(b,m){const d=b[m.f];if(d.v!==1)return false;return !apply(b,m).b.some(x=>x&&x.o===d.o&&x.v===1)}
+const moves=(b,p)=>allMoves(b,p).filter(m=>!lastOne(b,m));
 function apply(b0,m){const b=b0.map(x=>x&&{...x});const d=b[m.f],t=b[m.t];let rem=false;
 if(t){let s=(t.o===d.o||t.v===d.v)?d.v+t.v:d.v-t.v;if(s>6){s=6;rem=true}d.v=s}
 b[m.t]=d;b[m.f]=null;
@@ -255,47 +261,36 @@ if(six[m]>=2)return m;if(six[1-m]>=2)return 1-m;
 if(!ones[0]&&!ones[1])return'draw';
 if(!ones[1-m])return m;if(!ones[m])return 1-m;return null}
 
-/* ---- computer player: 2-ply search ---- */
-function ev(b,me){let s=0;
-b.forEach((d,i)=>{if(!d)return;const q=d.o===me?1:-1,r=i>>3,c=i&7;
-s+=q*(d.v+(d.v==1?4:0));
-if(d.v==6&&r>=3&&r<=4&&c>=3&&c<=4)s+=q*25;
-if(d.v==1)s+=q*.3*(d.o?r:7-r)});return s}
-function resolve(b,m,p){const a=apply(b,m);let nb=a.b;
-if(a.rem&&outOf(nb,p)>0){const f=freeBase(nb,p);if(f.length){nb=nb.slice();nb[f[0]]={o:p,v:1}}}return nb}
-function search(b,p,me){const ms=moves(b,p);if(!ms.length)return ev(b,me);
-let best=p===me?-1e9:1e9;
-for(const m of ms){const nb=resolve(b,m,p),o=outcome(nb,p);
-const v=o!==null?(o==='draw'?0:o===me?1e4:-1e4):ev(nb,me);
-if(p===me?v>best:v<best)best=v}return best}
-function aiPick(b,p){let best=-1e9,bm=null;
-for(const m of moves(b,p)){const nb=resolve(b,m,p),o=outcome(nb,p);
-const v=(o!==null?(o==='draw'?0:o===p?1e4:-1e4):search(nb,1-p,p))+Math.random()*.05;
-if(v>best){best=v;bm=m}}return bm}
-
 /* ---- computer players ---- */
 const DO=[1,0,-1,0,0,1,0,-1],DD=[1,1,1,-1,-1,1,-1,-1],DA=DO.concat(DD);
 const BASE=[[],[]];
 [0,1].forEach(p=>{[...rowsOf(p)].reverse().forEach(r=>{const k=rowsOf(p).indexOf(r);VALS[k].forEach((_,j)=>BASE[p].push(r*8+START[k]+j))})});
-const WIN=1e5;
-const W_BASE={mat:10,one:30,adv1:5,advO:1.5,ctr:1.5,six:70,c6:60,last:90,two:25,hunt:1,safe:1};
-const W_AGGR={mat:10.5,one:32,adv1:6.5,advO:2,ctr:1.2,six:65,c6:55,last:100,two:30,hunt:1.4,safe:.85};
+/* outcome values, best to worst: Perfect Victory, Lesser Victory, win on a technicality (36-move tiebreak),
+   ordinary draw, draw on a technicality (repetition / 36-move tie), loss */
+const WIN=1e5,PB=3000,TW=150,TL=500,CK0=20;
+const W_BASE={mat:10,one:30,adv1:5,advO:1.5,ctr:1.5,six:70,c6:60,last:90,two:25,hunt:1,safe:1,near:4,rch:20,thr:110};
+const W_AGGR={mat:10.5,one:32,adv1:6.5,advO:2,ctr:1.2,six:65,c6:55,last:100,two:30,hunt:1.4,safe:.85,near:4,rch:20,thr:110};
+/* levels come in pairs that share an engine. lite = no follow-up of capture chains; cl = share of careless moves
+   (they ignore the reply); ct = dislike of draws; pf = weight on planning for Perfect Victory; act = nudge toward captures/combinations */
 const PROFILES=[
- {name:'Friendly',legacy:true},
- {name:'Casual',depth:2,noise:8,slip:.08,w:W_BASE,smart:false},
- {name:'Normal',depth:3,noise:6,slip:.05,w:W_BASE,smart:true},
- {name:'Competitive',depth:3,time:500,w:W_BASE,smart:true,v2:true},
- {name:'Aggressive',depth:30,time:1400,w:W_AGGR,smart:true,v2:true},
- {name:'Galaxy Brain',depth:30,time:4300,w:W_AGGR,smart:true,v2:true,ct:15}
+ {name:'Friendly',depth:3,noise:10,slip:.1,cl:.4,w:W_BASE,smart:false,lite:true,ct:30,pf:.2,act:6},
+ {name:'Casual',depth:3,noise:8,slip:.06,cl:.3,w:W_BASE,smart:false,lite:true,ct:35,pf:.3,act:6},
+ {name:'Normal',depth:3,noise:6,slip:.05,cl:.2,time:500,w:W_BASE,smart:true,ct:45,pf:.45,act:4},
+ {name:'Competitive',depth:3,time:500,w:W_BASE,smart:true,ct:60,pf:.6},
+ {name:'Aggressive',depth:30,time:1400,w:W_AGGR,smart:true,ct:75,pf:.7},
+ {name:'Galaxy Brain',depth:30,time:4300,w:W_AGGR,smart:true,ct:90,pf:1},
 ];
+let ME=0,WT=W_BASE,DL=0,NODES=0,TT=null,ZK=null,QS=true,CT1=0,CT2=0,PF=0;
+function setLv(P){WT=P.w;QS=!P.lite;CT2=P.ct||0;CT1=CT2*.5;PF=P.pf||0}
 function toArr(ob){const a=new Int8Array(64);for(let i=0;i<64;i++){const d=ob[i];if(d)a[i]=d.o?-d.v:d.v}return a}
-function gen(b,p){const s=p?-1:1,out=[];
-for(let i=0;i<64;i++){const v=b[i]*s;if(v<=0)continue;const r=i>>3,c=i&7,D=v===1?DA:(v&1?DD:DO);
+/* last-One rule: no move may leave its player with no Ones (a lone One capturing or stepping onto the far back row, or combining the only two Ones) */
+function gen(b,p){const s=p?-1:1,out=[],back=p?7:0;let n1=0;for(let i=0;i<64;i++)if(b[i]*s===1)n1++;
+for(let i=0;i<64;i++){const v=b[i]*s;if(v<=0)continue;const r=i>>3,c=i&7,D=v===1?DA:(v&1?DD:DO),lone=v===1&&n1===1;
 for(let d=0;d<D.length;d+=2){const dr=D[d],dc=D[d+1];
 for(let k=1;k<=v;k++){const nr=r+dr*k,nc=c+dc*k;if(nr<0||nr>7||nc<0||nc>7)break;
 const j=nr*8+nc,t=b[j]*s;
-if(t===0){out.push(i|j<<6);continue}
-if(t<0){if(-t<=v)out.push(i|j<<6|1<<12)}else if(t===v)out.push(i|j<<6|2<<12);
+if(t===0){if(!(lone&&nr===back))out.push(i|j<<6);continue}
+if(t<0){if(-t<=v&&!lone)out.push(i|j<<6|1<<12)}else if(t===v&&!(v===1&&n1===2))out.push(i|j<<6|2<<12);
 if(v!==5)break}}}
 return out}
 let REM=false;
@@ -307,79 +302,54 @@ function cnt(b,p){let n=0;for(let i=0;i<64;i++)if(p?b[i]<0:b[i]>0)n++;return n}
 function place(b,p,sq){const nb=b.slice();nb[sq]=p?-1:1;return nb}
 function freeB(b,p){return BASE[p].filter(i=>!b[i])}
 function step(b,p,m){let nb=make(b,p,m);if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length)nb[f[0]]=p?-1:1}return nb}
-function term(b,mv){const ones=[0,0],six=[0,0];
+/* game-ending check after player mv moved: -1 none, 0/1 Lesser Victory, 4/5 Perfect Victory, 2 draw (both lost last One) */
+function term2(b,mv){const ones=[0,0],six=[0,0];
 for(let i=0;i<64;i++){const x=b[i];if(!x)continue;const p=x>0?0:1,v=x>0?x:-x;if(v===1)ones[p]++;else if(v===6){const r=i>>3,c=i&7;if(r>=3&&r<=4&&c>=3&&c<=4)six[p]++}}
-const o=1-mv;if(six[mv]>=2)return mv;if(six[o]>=2)return o;
+const o=1-mv;if(six[mv]>=2)return 4+mv;if(six[o]>=2)return 4+o;
 if(!ones[0]&&!ones[1])return 2;if(!ones[o])return mv;if(!ones[mv])return o;return -1}
-function evalB(b,me,W){let s=0;const ones=[0,0],c6=[0,0];
-for(let i=0;i<64;i++){const x=b[i];if(!x)continue;const p=x>0?0:1,v=x>0?x:-x,r=i>>3,c=i&7,adv=p?r:7-r;
-let t=v*W.mat+(v>1?adv*W.advO:0);
-if(v===1){ones[p]++;t+=W.one+adv*W.adv1+(adv>=5?W.adv1*(adv-4)*2:0)}
-if(r>=3&&r<=4&&c>=3&&c<=4){t+=W.ctr*v;if(v===6){c6[p]++;t+=W.six}}
-s+=p===me?t:-t}
+/* 8/9 = win on the 36-move tiebreak, 10 = draw on a technicality */
+function tscore(o,ply){if(o===2)return -CT1;if(o===10)return -CT2;const w=o&1,kind=o>>2;
+ if(w!==ME)return -WIN+ply;return kind===1?WIN+PB-ply:kind===2?TW:WIN-ply}
+function cbit(i){return 1<<(((i>>3)-3)*2+(i&7)-3)}
+/* central squares a Six on square i could reach next move */
+function reach6(b,i,p){const s=p?-1:1,r=i>>3,c=i&7;let m=0;
+for(let d=0;d<8;d+=2){const dr=DO[d],dc=DO[d+1];
+ for(let k=1;k<=6;k++){const nr=r+dr*k,nc=c+dc*k;if(nr<0||nr>7||nc<0||nc>7)break;const x=b[nr*8+nc]*s;
+  if(nr>=3&&nr<=4&&nc>=3&&nc<=4&&(x<=0||x===6))m|=1<<((nr-3)*2+nc-3);
+  if(x!==0)break}}
+return m}
+function evalB2(b,me,W,c){let s=0;const ones=[0,0],c6=[0,0],cs=[0,0],rc=[0,0],rm=[0,0],nr=[0,0];
+for(let i=0;i<64;i++){const x=b[i];if(!x)continue;const p=x>0?0:1,v=x>0?x:-x,r=i>>3,cc=i&7,adv=p?r:7-r;
+ let t=v*W.mat+(v>1?adv*W.advO:0);
+ if(v===1){ones[p]++;t+=W.one+adv*W.adv1+(adv>=5?W.adv1*(adv-4)*2:0)}
+ if(r>=3&&r<=4&&cc>=3&&cc<=4){t+=W.ctr*v;if(v===6){c6[p]++;cs[p]=i;t+=W.six}}
+ else if(v===6&&PF>0){const m=reach6(b,i,p);if(m){rc[p]++;rm[p]|=m}
+  const dd=(r<3?3-r:r>4?r-4:0)+(cc<3?3-cc:cc>4?cc-4:0);if(dd<5)nr[p]+=5-dd}
+ s+=p===me?t:-t}
 const o=1-me;
 let pen=ones[me]===1?W.last:ones[me]===2?W.two:0;s-=pen*W.safe;
 pen=ones[o]===1?W.last:ones[o]===2?W.two:0;s+=pen*W.hunt;
 if(c6[me]===1)s+=W.c6;if(c6[o]===1)s-=W.c6;
+if(PF>0)for(let p=0;p<2;p++){let t=nr[p]*W.near;
+ if(c6[p]===1){if(rm[p]&~cbit(cs[p]))t+=W.thr;else if(rc[p])t+=W.rch}
+ else if(rc[p])t+=W.rch*(rc[p]>1?2:1);
+ s+=(p===me?t:-t)*PF}
+/* 36-move clock: as it runs down, lean toward what the tiebreak would give (never rewards stalling) */
+if(c>=CK0){const x=(c-CK0)/(LIM-CK0),w=.6*x*x,d=ones[me]-ones[o],T=d>0?Math.min(s,TW):d===0?-CT2:-TL;s=s*(1-w)+T*w;
+ /* keep ways to reset the clock (captures and combinations) within reach */
+ let r=0;for(const m of gen(b,me))if(m>>12&&++r>=4)break;s+=x*r*30}
 return s}
-/* search state */
-let ME=0,WT=W_BASE,DL=0,NODES=0,TT=null,ZK=null;
+const evalB=(b,me,W)=>evalB2(b,me,W,0);
 /* draw rules: 36-move rule (36 single moves without capture/combine) and 3-fold repetition */
-const LIM=36;let CLK0=0,HZ=new Map(),PATH=[],NC=0,NK=0;
+const LIM=36;let CLK0=0,HZ=new Map(),PATH=[];
 function tie(b){let a=0,z=0;for(let i=0;i<64;i++){if(b[i]===1)a++;else if(b[i]===-1)z++}return a>z?0:z>a?1:2}
-function res(nb,p,m,c){let o=term(nb,p);NC=(m>>12)?0:c+1;NK=0;if(o>=0)return o;
-if(NC>=LIM)return tie(nb);
-if(!(m>>12)){NK=hkey(nb,1-p);let n=HZ.get(NK)||0;for(let i=0;i<PATH.length;i++)if(PATH[i]===NK)n++;if(n>=2)return 2}
-return -1}
 const ABORT={};
-function zinit(){if(ZK)return;ZK=[new Int32Array(64*13),new Int32Array(64*13)];let x=123456789;const rnd=()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return x|0};for(let t=0;t<2;t++)for(let i=0;i<64*13;i++)ZK[t][i]=rnd()}
+let CZ1=null,CZ2=null;
+function zinit(){if(ZK)return;ZK=[new Int32Array(64*13),new Int32Array(64*13)];let x=123456789;const rnd=()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return x|0};for(let t=0;t<2;t++)for(let i=0;i<64*13;i++)ZK[t][i]=rnd();
+ CZ1=new Int32Array(64);CZ2=new Int32Array(64);for(let c=12;c<64;c++){CZ1[c]=rnd();CZ2[c]=rnd()}}
 function hkey(b,p){let h1=p?0x5bd1e995:0,h2=p?0x1b873593:0;for(let i=0;i<64;i++){const x=b[i];if(x){const q=i*13+x+6;h1^=ZK[0][q];h2^=ZK[1][q]}}return (h1>>>0)*2097152+((h2>>>0)&2097151)}
-function order(b,p,ms,first){const n=ms.length,sc=new Array(n),s=p?-1:1;
-for(let i=0;i<n;i++){const m=ms[i],f=m&63,t=(m>>6)&63,k=m>>12,v=b[f]*s;let q=0;
-if(k===1)q=300+(-b[t]*s)*10;else if(k===2)q=60+v;
-if(v===1&&(t>>3)===(p?7:0))q+=500;
-q+=(p?(t>>3)-(f>>3):(f>>3)-(t>>3))*2;
-if(m===first)q+=1e6;sc[i]=q}
-for(let i=1;i<n;i++){const m=ms[i],q=sc[i];let j=i-1;while(j>=0&&sc[j]<q){ms[j+1]=ms[j];sc[j+1]=sc[j];j--}ms[j+1]=m;sc[j+1]=q}
-return ms}
-function ab(b,p,d,alpha,beta,ply,c){
-if((++NODES&1023)===0&&DL&&Date.now()>DL)throw ABORT;
-let key=0,first=0;
-if(TT){key=hkey(b,p);const e=TT.get(key);if(e){first=e.m;if(e.d>=d){if(e.f===0)return e.v;if(e.f===1){if(e.v>=beta)return e.v;if(e.v>alpha)alpha=e.v}else{if(e.v<=alpha)return e.v;if(e.v<beta)beta=e.v}}}}
-const ms=gen(b,p);
-if(!ms.length)return evalB(b,ME,WT);
-const a0=alpha,b0=beta,max=p===ME;let best=max?-1e9:1e9,bm=0;
-for(const m of order(b,p,ms,first)){
-const nb=step(b,p,m),o=res(nb,p,m,c);let v;
-if(o>=0)v=o===2?0:(o===ME?WIN-ply:-WIN+ply);
-else if(d<=1)v=evalB(nb,ME,WT);
-else{const nc=NC;PATH.push(NK);v=ab(nb,1-p,d-1,alpha,beta,ply+1,nc);PATH.pop()}
-if(max){if(v>best){best=v;bm=m}if(best>alpha)alpha=best}else{if(v<best){best=v;bm=m}if(best<beta)beta=best}
-if(alpha>=beta)break}
-if(TT){TT.set(key,{d,v:best,f:best<=a0?2:best>=b0?1:0,m:bm})}
-return best}
-function child(b,p,m,d,alpha){const nb=step(b,p,m),o=res(nb,p,m,CLK0);
-if(o>=0)return o===2?0:(o===ME?WIN:-WIN);if(d<=1)return evalB(nb,ME,WT);
-const nc=NC;PATH.push(NK);const v=ab(nb,1-p,d-1,alpha,1e9,1,nc);PATH.pop();return v}
-function rootScores(b,p,ms,d){return ms.map(m=>child(b,p,m,d,-1e9))}
-function aiChoose(L,ob,p){const P=PROFILES[L];
-if(P.legacy){return aiPick(ob,p)}
-const b=toArr(ob);ME=p;WT=P.w;NODES=0;DL=0;zinit();PATH.length=0;
-let ms=gen(b,p);if(!ms.length)return null;
-let pick;
-if(P.noise){
-const sc=rootScores(b,p,ms,P.depth).map(v=>v+(Math.random()*2-1)*P.noise);
-const idx=sc.map((v,i)=>i).sort((x,y)=>sc[y]-sc[x]);
-pick=ms[idx[(P.slip&&Math.random()<P.slip)?Math.floor(Math.random()*Math.min(3,idx.length)):0]]}
-else pick=search2(b,p,P);
-const r={f:pick&63,t:(pick>>6)&63,k:'mcj'[pick>>12],place:null};
-const nb=make(b,p,pick);
-if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length){
-if(P.smart){let bs=-1e9;for(const q of f){const v=evalB(place(nb,p,q),p,P.w)+Math.random()*.1;if(v>bs){bs=v;r.place=q}}}
-else r.place=f[Math.floor(Math.random()*f.length)]}}
-return r}
-/* ---- stronger search (used by the top levels): incremental hashing, quiescence, killers/history, late-move reductions ---- */
-const S1=0x5bd1e995,S2=0x1b873593;let CT=0,PQ=-1,CH1=0,CH2=0,KIL=null,HIS=null,QN=0;
+/* ---- search: incremental hashing, quiescence, killers/history, late-move reductions ---- */
+const S1=0x5bd1e995,S2=0x1b873593;let PQ=-1,CH1=0,CH2=0,KIL=null,HIS=null,REPN=0;
 const KEY=(h1,h2)=>(h1>>>0)*2097152+((h2>>>0)&2097151);
 function hparts(b,p){let h1=p?S1:0,h2=p?S2:0;for(let i=0;i<64;i++){const x=b[i];if(x){const q=i*13+x+6;h1^=ZK[0][q];h2^=ZK[1][q]}}CH1=h1;CH2=h2}
 function step2(b,p,m){const nb=make(b,p,m);PQ=-1;if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length){PQ=f[0];nb[PQ]=p?-1:1}}return nb}
@@ -395,35 +365,35 @@ function score2(b,p,m,first,ply){if(m===first)return 1e7;const s=p?-1:1,f=m&63,t
  return HIS[p*4096+(m&4095)]}
 function ord2(b,p,ms,first,ply){const n=ms.length,sc=new Float64Array(n);for(let i=0;i<n;i++)sc[i]=score2(b,p,ms[i],first,ply);
  const ix=Array.from({length:n},(_,i)=>i).sort((x,y)=>sc[y]-sc[x]);return ix.map(i=>ms[i])}
-function qs(b,p,alpha,beta,ply,qd){
+function endAt(nb,p,k,c){let o=term2(nb,p);if(o<0&&(k?0:c+1)>=LIM){const w=tie(nb);o=w===2?10:8+w}return o}
+function qs(b,p,alpha,beta,ply,qd,c){
  if((++NODES&1023)===0&&DL&&Date.now()>DL)throw ABORT;
- const stand=evalB(b,ME,WT),max=p===ME;
+ const stand=evalB2(b,ME,WT,c),max=p===ME;
  if(max){if(stand>=beta)return stand;if(stand>alpha)alpha=stand}else{if(stand<=alpha)return stand;if(stand<beta)beta=stand}
  if(qd<=0)return stand;
  const s=p?-1:1,all=gen(b,p),ms=[];
  for(const m of all){const k=m>>12;if(k)ms.push(m);else{const f=m&63,t=(m>>6)&63;if(b[f]*s===1&&(t>>3)===(p?7:0))ms.push(m)}}
  if(!ms.length)return stand;
  let best=stand;
- for(const m of ord2(b,p,ms,0,ply)){const nb=step(b,p,m),o=term(nb,p);let v;
-  if(o>=0)v=o===2?0:(o===ME?WIN-ply:-WIN+ply);else v=qs(nb,1-p,alpha,beta,ply+1,qd-1);
+ for(const m of ord2(b,p,ms,0,ply)){const nb=step(b,p,m),k=m>>12,o=endAt(nb,p,k,c);let v;
+  if(o>=0)v=tscore(o,ply);else v=qs(nb,1-p,alpha,beta,ply+1,qd-1,k?0:c+1);
   if(max){if(v>best)best=v;if(best>alpha)alpha=best}else{if(v<best)best=v;if(best<beta)beta=best}
   if(alpha>=beta)break}
  return best}
 function ab2(b,p,d,alpha,beta,ply,c,h1,h2){
- if(d<=0)return qs(b,p,alpha,beta,ply,6);
+ if(d<=0)return QS?qs(b,p,alpha,beta,ply,6,c):evalB2(b,ME,WT,c);
  if((++NODES&1023)===0&&DL&&Date.now()>DL)throw ABORT;
- const key=KEY(h1,h2);let first=0;
+ const key=KEY(h1^CZ1[c],h2^CZ2[c]);let first=0;
  const e=TT.get(key);if(e){first=e.m;if(e.d>=d){if(e.f===0)return e.v;if(e.f===1){if(e.v>=beta)return e.v;if(e.v>alpha)alpha=e.v}else{if(e.v<=alpha)return e.v;if(e.v<beta)beta=e.v}}}
- const ms=gen(b,p);if(!ms.length)return evalB(b,ME,WT);
- const a0=alpha,b0=beta,max=p===ME,s=p?-1:1;let best=max?-1e9:1e9,bm=0,i=0;
+ const ms=gen(b,p);if(!ms.length)return evalB2(b,ME,WT,c);
+ const a0=alpha,b0=beta,max=p===ME,s=p?-1:1,r0=REPN;let best=max?-1e9:1e9,bm=0,i=0;
  for(const m of ord2(b,p,ms,first,ply)){
   const nb=step2(b,p,m),f=m&63,t=(m>>6)&63,k=m>>12;
-  let o=term(nb,p),v;const nc=k?0:c+1;
-  if(o<0&&nc>=LIM)o=tie(nb);
+  let o=endAt(nb,p,k,c),v;const nc=k?0:c+1;
   let ck=0;
   if(o<0){chash(b,nb,f,t,h1,h2);ck=KEY(CH1,CH2);
-   if(!k){let n=HZ.get(ck)||0;for(let j=0;j<PATH.length;j++)if(PATH[j]===ck)n++;if(n>=2)o=2}}
-  if(o>=0)v=o===2?-CT:(o===ME?WIN-ply:-WIN+ply);
+   if(!k){let n=HZ.get(ck)||0;for(let j=0;j<PATH.length;j++)if(PATH[j]===ck)n++;if(n>=2){o=10;REPN++}}}
+  if(o>=0)v=tscore(o,ply);
   else{const c1=CH1,c2=CH2;PATH.push(ck);
    const quiet=!k&&!(b[f]*s===1&&(t>>3)===(p?7:0));
    if(quiet&&i>=4&&d>=3){v=ab2(nb,1-p,d-2,alpha,beta,ply+1,nc,c1,c2);
@@ -433,22 +403,48 @@ function ab2(b,p,d,alpha,beta,ply,c,h1,h2){
   if(max){if(v>best){best=v;bm=m}if(best>alpha)alpha=best}else{if(v<best){best=v;bm=m}if(best<beta)beta=best}
   if(alpha>=beta){if(!k){if(KIL[ply*2]!==m){KIL[ply*2+1]=KIL[ply*2];KIL[ply*2]=m}HIS[p*4096+(m&4095)]+=d*d}break}
   i++}
- TT.set(key,{d,v:best,f:best<=a0?2:best>=b0?1:0,m:bm});
+ /* a score that depends on how the position was reached (repetition) is not remembered, only the move */
+ TT.set(key,REPN===r0?{d,v:best,f:best<=a0?2:best>=b0?1:0,m:bm}:{d:-1,v:0,f:0,m:bm});
  return best}
-function search2(b,p,P){CT=P.ct||0;TT=new Map();KIL=new Int32Array(256);HIS=new Float64Array(8192);
+/* score one root move: game-ending check, repetition, then search below it */
+function rootChild(b,p,m,d,alpha,R1,R2){const nb=step2(b,p,m),f=m&63,t=(m>>6)&63,k=m>>12;let o=endAt(nb,p,k,CLK0);const nc=k?0:CLK0+1;let ck=0;
+ if(o<0){chash(b,nb,f,t,R1,R2);ck=KEY(CH1,CH2);if(!k&&(HZ.get(ck)||0)>=2)o=10}
+ if(o>=0)return tscore(o,0);
+ const c1=CH1,c2=CH2;PATH.length=0;PATH.push(ck);const v=ab2(nb,1-p,d-1,alpha,1e9,1,nc,c1,c2);PATH.length=0;return v}
+function freshTables(){TT=new Map();KIL=new Int32Array(256);HIS=new Float64Array(8192)}
+function search2(b,p,P){freshTables();
  const T0=Date.now();DL=P.time?T0+P.time:0;
  hparts(b,p);const R1=CH1,R2=CH2;
  let rm=ord2(b,p,gen(b,p),0,0),bestM=rm[0];
  try{for(let d=1;d<=P.depth;d++){let alpha=-1e9,curBest=rm[0],curV=-1e9;const scs=[];
-  for(const m of rm){const nb=step2(b,p,m),f=m&63,t=(m>>6)&63,k=m>>12;let o=term(nb,p),v;const nc=k?0:CLK0+1;
-   if(o<0&&nc>=LIM)o=tie(nb);let ck=0;
-   if(o<0){chash(b,nb,f,t,R1,R2);ck=KEY(CH1,CH2);if(!k&&(HZ.get(ck)||0)>=2)o=2}
-   if(o>=0)v=o===2?-CT:(o===ME?WIN:-WIN);
-   else{const c1=CH1,c2=CH2;PATH.length=0;PATH.push(ck);v=ab2(nb,1-p,d-1,alpha,1e9,1,nc,c1,c2);PATH.length=0}
+  for(const m of rm){const v=rootChild(b,p,m,d,alpha,R1,R2);
    scs.push([m,v]);if(v>curV){curV=v;curBest=m;if(v>alpha)alpha=v}}
   bestM=curBest;scs.sort((x,y)=>y[1]-x[1]);rm=scs.map(x=>x[0]);
-  if(Math.abs(curV)>=WIN-50)break}}catch(e){if(e!==ABORT)throw e}
+  if(curV>=WIN-50||curV<=-WIN+50)break}}catch(e){if(e!==ABORT)throw e}
  DL=0;TT=null;return bestM}
+/* exact score for every root move (used by the levels that make deliberate mistakes) */
+function rootScores2(b,p,ms,d,time){freshTables();hparts(b,p);const R1=CH1,R2=CH2;let out=ms.map(m=>rootChild(b,p,m,1,-1e9,R1,R2));DL=time?Date.now()+time:0;
+ try{for(let k=2;k<=d;k++)out=ms.map(m=>rootChild(b,p,m,k,-1e9,R1,R2))}catch(e){if(e!==ABORT)throw e}
+ DL=0;TT=null;return out}
+/* a win available right now is always taken, Perfect Victory first */
+function winNow(b,p,ms){let l=0;for(const m of ms){const o=term2(step(b,p,m),p);if(o===4+p)return m;if(o===p&&!l)l=m}return l}
+function aiChoose(L,ob,p){const P=PROFILES[L];setLv(P);
+const b=toArr(ob);ME=p;NODES=0;DL=0;zinit();PATH.length=0;
+const ms=gen(b,p);if(!ms.length)return null;
+let pick=P.noise?0:winNow(b,p,ms);
+if(!pick){if(P.noise){
+ /* a careless move looks only at its own result, ignoring the reply (how beginners hang pieces) */
+ const care=P.cl&&Math.random()<P.cl;if(care)QS=false;
+ const urg=Math.max(0,CLK0-16)**2*.4,sc=rootScores2(b,p,ms,care?1:P.depth,P.time).map((v,i)=>v+((ms[i]>>12)?(P.act||0)+urg:0)+(Math.random()*2-1)*P.noise);
+ const idx=sc.map((v,i)=>i).sort((x,y)=>sc[y]-sc[x]);
+ pick=ms[idx[(P.slip&&Math.random()<P.slip)?Math.floor(Math.random()*Math.min(3,idx.length)):0]]}
+ else pick=search2(b,p,P)}
+const r={f:pick&63,t:(pick>>6)&63,k:'mcj'[pick>>12],place:null};
+const nb=make(b,p,pick);
+if(REM&&cnt(nb,p)<NSTART){const f=freeB(nb,p);if(f.length){
+if(P.smart){let bs=-1e9;for(const q of f){const v=evalB2(place(nb,p,q),p,P.w,0)+Math.random()*.1;if(v>bs){bs=v;r.place=q}}}
+else r.place=f[Math.floor(Math.random()*f.length)]}}
+return r}
 </script>
 <script>
 /* ---- game flow ---- */
@@ -463,7 +459,7 @@ function restore(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');
  render();maybeAI();return true}catch(e){return false}}
 /* Intergalactic layouts (left half of the base: back row b-d, middle c-d, front d) that averaged 18 moves or fewer in testing */
 const UNSTABLE=new Set(["501220", "001225", "045001", "405001", "030313", "013330", "141004", "310303", "051220", "013303", "100333", "160030", "302014", "103303", "160003", "005014", "001450", "001333", "020314", "301303", "301033"]);
-let G,MODE=1,T,THEME="dark",AID={dice:true,moves:true,rules:true},LEVEL=2,RULE='std';
+let G,MODE=1,T,THEME="dark",AID={dice:true,moves:true,rules:true},LEVEL=1,RULE='std';
 function newGame(){if(typeof stopThinking==='function')stopThinking();LONES=[-1,-1];$('#new').classList.remove('shine');clearTimeout(T);AIID++;clearTimeout(OV);$('#over').hidden=true;LS=null;const su=RULE==='adv'?rollSetup():null,unstable=!!su&&UNSTABLE.has(su[0].slice(0,3).join('')+su[1].slice(0,2).join('')+su[2][0]);
 G={b:init(su),rule:RULE,turn:Math.random()<.5?0:1,sel:null,pending:null,over:false,last:null,busy:false,mode:MODE,level:LEVEL,note:'',tip:'',clock:0,hz:new Map()};
 NSTART=count(G.b,0);zinit();seen();guide();G.note=`${unstable?'Caution: unstable setup. ':''}${G.turn?'Heads':'Tails'}! ${NAME[G.turn]} moves first.`;G.first=true;G.tip='';render();maybeAI()}
@@ -494,7 +490,8 @@ function endBy(c,tip,panel,note){G.over=true;G.pending=null;G.note+=c;G.tip=tip;
 const nm=t=>t.replace(/\b(Orange|Teal)\b/g,(w)=>`<span class="n${w=='Teal'?0:1}">${w}</span>`);
 /* the panel below the board (Move Tracker): one line of notation, plus a short explanation when the game ends; two lines at most */
 function paint(){const m=$('#msg');let h='';
- if(AID.moves&&G.note){const pend=G.pending&&!isAI()&&!G.over,ex=G.over&&G.tip;
+ if(G.err)h=`<div class="mv"><span class="bad">Invalid:</span> you’d lose your last One!</div>`;
+ else if(AID.moves&&G.note){const pend=G.pending&&!isAI()&&!G.over,ex=G.over&&G.tip;
   h+=`<div class="mv">${pend?'<span class="blink">Return a One to your base.</span>':nm(G.note)+(ex?' '+nm(G.tip):'')}</div>`}
  m.innerHTML=h;m.hidden=!h;
  /* two lines at most: shrink the text slightly if it would need a third */
@@ -509,9 +506,13 @@ function center(force){const w=innerWidth,hh=innerHeight;if(!force&&w===CW&&Math
 addEventListener('resize',()=>center());if(document.fonts)document.fonts.ready.then(()=>center(true));
 function click(i){if(G.over||G.busy||isAI())return;
 if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};G.pending=null;G.last=[...G.last,i];G.note+=`, +${tok(G.turn,1)} to ${sq(i)}`;finish()}return}
-const d=G.b[i];
-if(G.sel!==null){const m=moves(G.b,G.turn).find(m=>m.f===G.sel&&m.t===i);if(m)return doMove(m)}
+const d=G.b[i];G.err=false;
+if(G.sel!==null){const m=allMoves(G.b,G.turn).find(m=>m.f===G.sel&&m.t===i);
+ if(m&&lastOne(G.b,m)){G.err=true;render();nope(G.sel);return}
+ if(m)return doMove(m)}
 G.sel=(d&&d.o===G.turn&&G.sel!==i)?i:null;render()}
+/* a refused move: the One shakes its head */
+function nope(i){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const x=$('#board').children[i].querySelector('.die');if(!x)return;x.classList.remove('nope');void x.offsetWidth;x.classList.add('nope')}
 function doMove(m){const d=G.b[m.f],t=G.b[m.t];
 const a=apply(G.b,m),nd=a.b[m.t];
 /* notation: T3d2-f4 (move) · T4d4xO1d5→T3 (capture) · T2d4&T2c4→T4 (combine); T/O tokens in their colors */
@@ -520,7 +521,7 @@ let s=m.k==='m'?`${tok(me,d.v)}${sq(m.f)}-${sq(m.t)}`:`${tok(me,d.v)}${sq(m.f)}$
 if(nd.v!==d.v||a.rem)s+=`→${tok(me,nd.v)}`;
 if(G.first){if(G.mode===1&&me===1)s=G.note+' '+s;G.first=false}
 if(a.rem){const lost=outOf(a.b,me)>0,free=freeBase(a.b,me).length>0;if(!lost)s+=' (no dice out, so no One returns)';else if(!free)s+=' (base is full, so no One returns)'}
-G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};G.note=s;G.tip='';
+G.err=false;G.clock=m.k==='m'?G.clock+1:0;G.b=a.b;G.last=[m.f,m.t];G.sel=null;LS=null;G.anim={f:m.f,t:m.t,gone:t?{o:t.o,v:t.v}:null};G.note=s;G.tip='';
 if(a.rem&&outOf(G.b,G.turn)>0){const f=freeBase(G.b,G.turn);
  if(f.length){
   if(isAI()){const i=(m.place!=null&&f.includes(m.place))?m.place:f[Math.random()*f.length|0];G.b[i]={o:1,v:1};G.spawn={i,delay:.22};G.note+=`, +${tok(1,1)} to ${sq(i)}`}
@@ -539,7 +540,10 @@ if(G.clock>=LIM){const w=tie(toArr(G.b)),n36='36 consecutive moves occurred with
  return endBy(code(w,'#36'),`(${NAME[w]} wins by 36-move rule: more Ones)`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,n36)}
 G.turn=1-G.turn;
 if(!moves(G.b,G.turn).length){const prev=NAME[G.turn];G.turn=1-G.turn;
- if(!moves(G.b,G.turn).length)return endBy(' // =','(Draw: no one can move)','No one can move. The game is a Draw.');
+ /* both players stuck: settled like the 36-move rule, more Ones wins */
+ if(!moves(G.b,G.turn).length){const w=tie(toArr(G.b)),nn='No one can move.';
+  if(w===2)return endBy(' // =','(Draw: no one can move, equal Ones)','Both players have the same number of Ones. The game is a Draw.',nn);
+  return endBy(code(w,'#b'),`(${NAME[w]} wins: no one can move, more Ones)`,`${sw(w)}${NAME[w]} has more Ones on the board, and wins the tiebreak.`,nn)}
  G.note+=` | ${prev} passes`}
 if(seen()>=3)return endBy(' // =3','(Draw by repetition: same position 3 times)','The game is a Draw.','The same board position has occurred 3 times.');
 render();maybeAI()}
@@ -566,17 +570,13 @@ return n===1?' warn':n===0?' zero':''}
 function showOver(html,delay,note){clearTimeout(OV);OV=setTimeout(()=>{if(!G.over)return;$('#ovt').innerHTML=html;const p=$('#ovp');p.textContent=note||'';p.hidden=!note;$('#over').hidden=false},delay===undefined?750:delay)}
 function resign(){if(G.over||G.mode!==1)return;clearTimeout(T);AIID++;stopThinking();G.busy=false;G.over=true;G.pending=null;G.sel=null;
 const txt=`${NAME[0]} resigned. ${NAME[1]} wins.`;G.note=`${NAME[0]} resigns`+code(1,'#r');G.tip=`(${NAME[1]} wins)`;render();showOver(`<span class="pd" style="background:var(--orange)"></span>${txt}`,0)}
-/* a move (incl. a last One promoting on the back row) or Capture/Combine that would end the game without a win for the mover (e.g. spending your last One) */
-function selfEnding(m){const a=apply(G.b,m);let b=a.b;
-if(a.rem&&outOf(b,G.turn)>0){const f=freeBase(b,G.turn);if(f.length)b[f[0]]={o:G.turn,v:1}}
-const o=outcome(b,G.turn);return o!==null&&o!==G.turn}
 function render(){const bd=$('#board');bd.innerHTML='';const prev=LS,later=[];LS=G.sel;
-const legal=G.sel!==null?moves(G.b,G.turn).filter(m=>m.f===G.sel):[];
+const legal=G.sel!==null?allMoves(G.b,G.turn).filter(m=>m.f===G.sel):[];
 for(let i=0;i<64;i++){const r=i>>3,c=i&7,el=document.createElement('button');
 el.className='cell '+((r+c)%2?'d':'l');const d=G.b[i];
 el.setAttribute('aria-label',`row ${r+1}, column ${c+1}${d?', '+NAME[d.o]+' '+d.v:', empty'}`);
 if(d){const dd=mk(d);if(G.spawn&&G.spawn.i===i&&!matchMedia('(prefers-reduced-motion: reduce)').matches){dd.classList.add('spawn');dd.style.animationDelay=G.spawn.delay+'s'}el.appendChild(dd)}
-const m=legal.find(m=>m.t===i);if(m){el.classList.add(m.k);if(selfEnding(m))el.classList.add('xd')}
+const m=legal.find(m=>m.t===i);if(m){el.classList.add(m.k);if(lastOne(G.b,m))el.classList.add('xd')}
 if(G.sel===i){if(prev===i||!d)el.classList.add('sel');else later.push(()=>el.classList.add('sel'))}
 else if(prev===i&&d&&G.sel!==i){el.classList.add('sel');later.push(()=>el.classList.remove('sel'))}
 if(G.last&&G.last.includes(i))el.classList.add(G.last.length==2&&G.last[0]===i?'lastf':'last');
@@ -589,7 +589,7 @@ if(an&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const cells=bd.c
   later.push(()=>{die.style.transition='';die.style.transform='';setTimeout(()=>die.classList.remove('mv'),260)});
   if(an.gone){const g=mk(an.gone);g.classList.add('ghost');dest.insertBefore(g,die);later.push(()=>{g.style.transform='scale(0)';g.style.opacity='0'});setTimeout(()=>g.remove(),340)}}}
 $('#resign').hidden=G.mode!==1;$('#resign').disabled=!!G.over;
-[0,1].forEach(p=>{const n=G.mode===1?(p?PROFILES[G.level].name:'You'):NAME[p];
+[0,1].forEach(p=>{const n=G.mode===1?(p?`Computer L${G.level+1}`:'You'):NAME[p];
 $('#s'+p).className='pl'+(!G.over&&G.turn===p?' on':'');
 $('#s'+p).innerHTML=`<b style="background:var(--${p?'orange':'teal'})"></b><span class="nm">${n}</span><small><span class="st${onesCls(p)}">${(n1=>n1+(n1===1?' One':' Ones'))(G.b.filter(d=>d&&d.o===p&&d.v==1).length)}</span><span class="sep"> | </span><span class="st">${outOf(G.b,p)} dice out</span></small>`});
 save();paint();
