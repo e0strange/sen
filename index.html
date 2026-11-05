@@ -219,7 +219,7 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 <div class="row sub"><span id="a_dice">Dice Tracker</span><button class="sw" data-aid="dice" role="switch" aria-labelledby="a_dice"><i></i></button></div>
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
 </div>
-<p class="ver">sen designed by <a href="https://ericstrange.com" target="_blank" rel="noopener">Eric Chang</a><br>v0.815 | Licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" style="white-space:nowrap">CC BY-NC-SA 4.0</a>, 2013</p>
+<p class="ver">sen designed by <a href="https://ericstrange.com/" target="_blank" rel="noopener">Eric Chang</a><br>Licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" style="white-space:nowrap">CC BY-NC-SA 4.0</a>, 2013 (v0.816)</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -502,14 +502,27 @@ function paint(){const m=$('#msg');let h='';
   h+=`<div class="mv">${pend?'<span class="blink">Return a One to your base.</span>':nm(G.note)+(ex?' '+nm(G.tip):'')}</div>`}
  m.innerHTML=h;m.hidden=!h;
  /* two lines at most: shrink the text slightly if it would need a third */
- m.querySelectorAll('.mv').forEach(x=>{let s=14;while(x.scrollHeight>44&&s>9){s-=.5;x.style.fontSize=s+'px';x.style.lineHeight=Math.round(s*1.5)+'px'}})}
+ m.querySelectorAll('.mv').forEach(x=>{let s=14;while(x.scrollHeight>44&&s>9){s-=.5;x.style.fontSize=s+'px';x.style.lineHeight=Math.round(s*1.5)+'px'}});fitBottom()}
 addEventListener('resize',()=>{if(G)paint()});
 let CW=0,CH=0;
-function center(force){const w=innerWidth,hh=innerHeight;if(!force&&w===CW&&Math.abs(hh-CH)<120)return;CW=w;CH=hh;
+/* layout: players + board sit a little above center; everything down to the button row must fit the screen while the Rules are closed
+   (on tablets and computers the board shrinks if needed; on phones only the empty space does).
+   Small height changes (a phone toolbar sliding in or out) never move the board: the empty space at the bottom absorbs them. */
+const MINTOP=16,MINBOARD=300;
+function center(force){const w=innerWidth,hh=innerHeight;const small=!force&&w===CW&&Math.abs(hh-CH)<120;
  const mid=$('.mid'),hdr=$('.hdr'),main=$('main');
- const top=hdr.offsetTop+hdr.offsetHeight,pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
- const avail=hh-top-pb-28,core=$('.players').offsetHeight+10+$('.wrap').offsetHeight;
- mid.style.paddingTop=Math.max(40,Math.round((avail-core)/2)-30)+'px'}
+ if(!small){CW=w;CH=hh;main.style.width='';mid.style.paddingBottom='';
+  const top=hdr.offsetTop+hdr.offsetHeight,pb=parseFloat(getComputedStyle(main).paddingBottom)||0,avail=hh-top-pb;
+  const board=()=>$('.players').offsetHeight+10+$('.wrap').offsetHeight,below=()=>{const m=$('#msg');return $('.bar').getBoundingClientRect().bottom-$('.players').getBoundingClientRect().top-board()+(m.hidden?0:Math.max(0,62-m.offsetHeight))};
+  let pad=Math.max(40,Math.round((avail-28-board())/2)-30),fit=avail-board()-below();
+  if(fit<MINTOP&&w>=600){const bw=$('.wrap').offsetWidth,nw=Math.max(MINBOARD,bw-(MINTOP-fit));if(nw<bw){main.style.width=`min(100%,${nw}px)`;fit=avail-board()-below()}}
+  mid.style.paddingTop=Math.max(MINTOP,Math.min(pad,fit))+'px'}
+ fitBottom()}
+/* trim the empty space under the buttons so the page doesn't scroll (only when the Rules are closed) */
+function fitBottom(){const mid=$('.mid'),main=$('main');if(!mid||!$('#rules').hidden){if(mid)mid.style.paddingBottom='';return}
+ const pb=parseFloat(getComputedStyle(main).paddingBottom)||0,barB=$('.bar').getBoundingClientRect().bottom+scrollY;
+ let room=innerHeight-pb-barB;mid.style.paddingBottom=Math.max(0,Math.min(28,room))+'px';
+ if(room<0){const pt=parseFloat(mid.style.paddingTop)||40,cut=Math.min(-room,pt-MINTOP);if(cut>0)mid.style.paddingTop=(pt-cut)+'px'}}
 addEventListener('resize',()=>center());if(document.fonts)document.fonts.ready.then(()=>center(true));
 function click(i){if(G.view!=null||G.over||G.busy||isAI())return;
 if(G.pending){if(G.pending.includes(i)){G.b[i]={o:G.turn,v:1};G.spawn={i,delay:0};if(G.lm)G.lm.sp=i;G.pending=null;G.last=[...G.last,i];G.note+=`, +${tok(G.turn,1)} to ${sq(i)}`;finish()}return}
@@ -649,7 +662,7 @@ $('#psnote').textContent=RULE==='adv'?'Randomized setups for seasoned players. C
 try{localStorage.setItem('sen-prefs',JSON.stringify({THEME,AID,LEVEL,RULE,RQ}))}catch(e){}}
 try{const p=JSON.parse(localStorage.getItem('sen-prefs')||'{}');if(p.THEME)THEME=p.THEME;if(typeof p.AIDS==='boolean')for(const k in AID)AID[k]=p.AIDS;if(p.AID&&typeof p.AID==='object')for(const k in AID)if(typeof p.AID[k]==='boolean')AID[k]=p.AID[k];if(p.RULE==='adv'||p.RULE==='std')RULE=p.RULE;if(p.RQ)RQ=1;if(Number.isInteger(p.LEVEL)&&p.LEVEL>=0&&p.LEVEL<PROFILES.length)LEVEL=p.LEVEL}catch(e){}
 $('#gear').onclick=()=>set.showModal();
-$('#rq').onclick=()=>{const r=$('#rules'),open=r.hidden;r.hidden=!open;const b=$('#rq');b.classList.toggle('on',open);b.setAttribute('aria-expanded',open);if(b.classList.contains('shine')){b.classList.remove('shine');RQ=1;prefs()}};
+$('#rq').onclick=()=>{const r=$('#rules'),open=r.hidden;r.hidden=!open;const b=$('#rq');b.classList.toggle('on',open);b.setAttribute('aria-expanded',open);fitBottom();if(b.classList.contains('shine')){b.classList.remove('shine');RQ=1;prefs()}};
 $('#hb').onclick=()=>hist(-1);$('#hf').onclick=()=>hist(1);
 addEventListener('keydown',e=>{if(document.querySelector('dialog[open]')||!G)return;if(e.key==='ArrowLeft')hist(-1);else if(e.key==='ArrowRight')hist(1)});
 $('#x2').onclick=()=>set.close();
