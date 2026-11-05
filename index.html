@@ -111,7 +111,8 @@ select,button.ctl{font:inherit;padding:7px 12px;border-radius:8px;border:0;backg
 .ib:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
 #hb{left:4px}
 button.ctl:focus-visible,.x:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
-.clk{width:41px;height:41px;fill:var(--clk);display:block}
+.clk{width:41px;height:41px;fill:var(--clk);display:block;transition:fill .15s ease-out}
+.clk.on{fill:var(--ink)}
 .rules{margin-top:10px;background:var(--panel);border-radius:var(--br);padding:12px 14px 10px;font-size:13px}
 .rules[hidden]{display:none}
 .rtl{margin:0;font:600 14px/1.5 "League Spartan",Verdana,sans-serif}
@@ -218,7 +219,7 @@ dialog h2{margin:0 0 16px;font:600 18px/1.3 "League Spartan",Verdana,sans-serif}
 <div class="row sub"><span id="a_dice">Dice Tracker</span><button class="sw" data-aid="dice" role="switch" aria-labelledby="a_dice"><i></i></button></div>
 <div class="row sub"><span id="a_moves">Move Tracker</span><button class="sw" data-aid="moves" role="switch" aria-labelledby="a_moves"><i></i></button></div>
 </div>
-<p class="ver">sen designed by <a href="https://ericstrange.com" target="_blank" rel="noopener">Eric Chang</a><br>v0.814 | Licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" style="white-space:nowrap">CC BY-NC-SA 4.0</a>, 2013</p>
+<p class="ver">sen designed by <a href="https://ericstrange.com" target="_blank" rel="noopener">Eric Chang</a><br>v0.815 | Licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" style="white-space:nowrap">CC BY-NC-SA 4.0</a>, 2013</p>
 </div></dialog>
 <script id="core">
 const $=s=>document.querySelector(s);
@@ -584,7 +585,7 @@ function render(){
  if(!G.pending&&G.hist.length<=G.mv){G.hist.push({b:G.b.map(d=>d&&{o:d.o,v:d.v}),last:G.last,note:G.note,tip:G.tip,turn:G.turn,over:G.over,a:G.mv?G.lm||null:null});G.lm=null}
  if(G.view!=null&&G.view>=G.hist.length)G.view=null;
  const H=G.view!=null?G.hist[G.view]:null;
- $('#hb').classList.toggle('on',!!H);$('#hf').classList.toggle('on',!!H);
+ $('#hb').classList.toggle('on',!!H);$('#hf').classList.toggle('on',!!H);$('.clk').classList.toggle('on',!!H);
  if(!H){if(RA){Object.assign(G,{anim:RA.anim||null,spawn:RA.spawn||null,ghost:RA.ghost||null});RA=null}return draw()}
  const keep={b:G.b,last:G.last,sel:G.sel,pending:G.pending,turn:G.turn,over:G.over,note:G.note,tip:G.tip,err:G.err,anim:G.anim,spawn:G.spawn};
  const ra=RA||{};RA=null;
